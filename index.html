@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pharma Innovation Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0a0a0a;
+  --ink-soft: #2a2a2a;
+  --ink-light: #555;
+  --ink-faint: #888;
+  --paper: #fafaf7;
+  --paper-warm: #f4f2eb;
+  --line: #e2dfd6;
+  --line-soft: #ebe8df;
+  --accent: #a8341f;
+  --accent-soft: #c95a45;
+  --warn: #b8860b;
+  --gain: #2d6a3e;
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout */
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--paper-warm);
+  border-right: 1px solid var(--line);
+  padding: 32px 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand-title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.brand-subtitle {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  margin-top: 6px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-section {
+  margin-bottom: 24px;
+}
+
+.nav-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-left: 8px;
+}
+
+.nav-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  transition: all 0.15s ease;
+  border-left: 2px solid transparent;
+}
+
+.nav-item:hover {
+  background: rgba(168, 52, 31, 0.04);
+  color: var(--ink);
+}
+
+.nav-item.active {
+  background: rgba(168, 52, 31, 0.08);
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+
+.nav-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  background: var(--paper);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.nav-item.active .nav-count {
+  color: var(--accent);
+  background: var(--paper);
+}
+
+/* Main */
+.main {
+  padding: 40px 48px 80px 48px;
+  max-width: 1400px;
+}
+
+.page-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.page-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.page-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.page-desc {
+  color: var(--ink-light);
+  font-size: 14px;
+  max-width: 700px;
+}
+
+/* Filter bar */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
+.filter-select {
+  font-family: var(--body);
+  font-size: 13px;
+  padding: 6px 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink);
+  cursor: pointer;
+  min-width: 140px;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.filter-reset {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-light);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  align-self: flex-end;
+  margin-bottom: 0;
+}
+
+.filter-reset:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.results-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+/* Company table */
+.company-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--paper);
+}
+
+.company-table thead th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 500;
+}
+
+.company-table tbody tr {
+  border-bottom: 1px solid var(--line-soft);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.company-table tbody tr:hover {
+  background: var(--paper-warm);
+}
+
+.company-table tbody td {
+  padding: 14px 16px;
+  vertical-align: top;
+  font-size: 13.5px;
+}
+
+.company-name {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.company-ticker {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+
+.tier-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  background: var(--paper-warm);
+  color: var(--ink-light);
+  border: 1px solid var(--line);
+}
+
+.tier-T1 { background: rgba(168, 52, 31, 0.08); color: var(--accent); border-color: rgba(168, 52, 31, 0.2); }
+.tier-WCN { background: rgba(184, 134, 11, 0.1); color: var(--warn); border-color: rgba(184, 134, 11, 0.25); }
+
+.metric { font-family: var(--mono); font-size: 12.5px; }
+.metric-positive { color: var(--gain); }
+.metric-negative { color: var(--accent); }
+
+.pc-severity {
+  font-size: 11px;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.pc-very-high { background: rgba(168, 52, 31, 0.15); color: var(--accent); }
+.pc-high { background: rgba(184, 134, 11, 0.12); color: var(--warn); }
+.pc-medium { background: rgba(85, 85, 85, 0.08); color: var(--ink-light); }
+.pc-medium-high { background: rgba(184, 134, 11, 0.12); color: var(--warn); }
+.pc-low { background: rgba(45, 106, 62, 0.1); color: var(--gain); }
+.pc-low-medium { background: rgba(45, 106, 62, 0.1); color: var(--gain); }
+.pc-na { color: var(--ink-faint); font-style: italic; }
+
+/* Company detail */
+.detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+  text-decoration: none;
+  margin-bottom: 24px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.detail-back:hover {
+  color: var(--accent);
+}
+
+.detail-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.detail-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 42px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.detail-ticker {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+.detail-notes {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-light);
+  margin-top: 16px;
+  max-width: 800px;
+}
+
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 40px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.stat {
+  padding: 16px 20px;
+  border-right: 1px solid var(--line-soft);
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.stat-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+  margin-top: 4px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.section-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+.asset-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.asset-table thead th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 500;
+}
+
+.asset-table tbody td {
+  padding: 10px;
+  font-size: 12.5px;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+
+.asset-name {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.asset-sub {
+  font-size: 11px;
+  color: var(--ink-faint);
+  margin-top: 2px;
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  padding: 2px 6px;
+  background: var(--paper-warm);
+  color: var(--ink-light);
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  margin-right: 4px;
+}
+
+.tag-clickable {
+  cursor: pointer;
+  border: 1px solid var(--line);
+  transition: all 0.15s;
+}
+
+.tag-clickable:hover {
+  background: var(--paper);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.empty-state {
+  padding: 24px;
+  text-align: center;
+  color: var(--ink-faint);
+  font-style: italic;
+  font-family: var(--display);
+  font-size: 14px;
+}
+
+/* Strength panels */
+.strength-section {
+  margin-bottom: 32px;
+}
+
+.strength-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.strength-row {
+  display: grid;
+  grid-template-columns: 200px 80px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 12px;
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.strength-row:hover {
+  border-color: var(--line);
+}
+
+.strength-name { font-weight: 500; }
+.strength-dots {
+  display: flex;
+  gap: 3px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.dot.filled { background: var(--accent); }
+.strength-notes {
+  font-size: 12px;
+  color: var(--ink-light);
+}
+
+/* Modality / TA reference */
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.ref-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ref-card:hover {
+  border-color: var(--accent);
+  background: var(--paper-warm);
+}
+
+.ref-card-id {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--ink-faint);
+  letter-spacing: 0.08em;
+}
+
+.ref-card-title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 18px;
+  margin: 4px 0 12px 0;
+  line-height: 1.2;
+}
+
+.ref-card-stage {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  padding: 2px 7px;
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.stage-Mature { background: rgba(85, 85, 85, 0.08); color: var(--ink-light); }
+.stage-Growth { background: rgba(45, 106, 62, 0.1); color: var(--gain); }
+.stage-Emerging { background: rgba(184, 134, 11, 0.12); color: var(--warn); }
+.stage-Frontier { background: rgba(168, 52, 31, 0.1); color: var(--accent); }
+
+.ref-card-summary {
+  font-size: 12.5px;
+  color: var(--ink-light);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.ref-card-stats {
+  display: flex;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line-soft);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-light);
+}
+
+/* Modality / TA detail */
+.modality-detail {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+}
+
+.modality-sidebar h4 {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+
+.modality-sidebar h4:first-child { margin-top: 0; }
+
+.modality-sidebar p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.companies-using {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.co-chip {
+  font-size: 11.5px;
+  padding: 4px 9px;
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.co-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.co-chip-leader {
+  background: rgba(168, 52, 31, 0.08);
+  border-color: rgba(168, 52, 31, 0.2);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Themes */
+.themes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.theme-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.theme-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 0.08em;
+}
+
+.theme-title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 17px;
+  margin: 4px 0 12px 0;
+  line-height: 1.25;
+}
+
+.theme-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.theme-sea {
+  background: var(--paper-warm);
+  border-left: 2px solid var(--accent);
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-soft);
+  border-radius: 0 4px 4px 0;
+}
+
+.theme-sea-label {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+/* Hide/show */
+.view { display: none; }
+.view.active { display: block; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--paper-warm); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+
+@media (max-width: 1000px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .detail-grid, .modality-detail { grid-template-columns: 1fr; }
+  .detail-stats { grid-template-columns: repeat(2, 1fr); }
+  .themes-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-title">Pharma Innovation<br>Framework</div>
+      <div class="brand-subtitle">v6.0 · Singapore Lens</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Primary</div>
+      <div class="nav-item active" data-view="companies"><span>Companies</span><span class="nav-count" id="nav-co-count"></span></div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Reference</div>
+      <div class="nav-item" data-view="modalities"><span>Modalities</span><span class="nav-count" id="nav-m-count"></span></div>
+      <div class="nav-item" data-view="tas"><span>Therapeutic Areas</span><span class="nav-count" id="nav-ta-count"></span></div>
+      <div class="nav-item" data-view="themes"><span>Strategic Themes</span><span class="nav-count" id="nav-t-count"></span></div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Meta</div>
+      <div class="nav-item" data-view="about"><span>About</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- COMPANIES LIST -->
+    <div class="view active" id="view-companies">
+      <header class="page-header">
+        <h1 class="page-title">Companies · <em>the master list</em></h1>
+        <p class="page-desc">Top 15 by revenue plus a watchlist of Chinese innovators, large biotechs, and specialty players. Click any company to see its products, pipeline, and modality/TA leadership profile.</p>
+      </header>
+
+      <div class="filters">
+        <div class="filter-group">
+          <label class="filter-label">Tier</label>
+          <select class="filter-select" id="f-tier">
+            <option value="">All tiers</option>
+            <option value="T1">Top 15</option>
+            <option value="WCN">Watchlist · Chinese</option>
+            <option value="WBT">Watchlist · Biotech</option>
+            <option value="WSP">Watchlist · Specialty</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Region</label>
+          <select class="filter-select" id="f-region">
+            <option value="">All regions</option>
+            <option value="US">United States</option>
+            <option value="EU">Europe</option>
+            <option value="Asia">Asia</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Primary TA</label>
+          <select class="filter-select" id="f-ta">
+            <option value="">All TAs</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Growth</label>
+          <select class="filter-select" id="f-growth">
+            <option value="">All</option>
+            <option value="declining">Declining (&lt;0%)</option>
+            <option value="flat">Flat (0-5%)</option>
+            <option value="growing">Growing (5-20%)</option>
+            <option value="hyper">Hypergrowth (&gt;20%)</option>
+          </select>
+        </div>
+        <div class="filter-group" style="margin-left: auto;">
+          <label class="filter-label">&nbsp;</label>
+          <button class="filter-reset" id="f-reset">Reset filters</button>
+        </div>
+      </div>
+
+      <div class="results-count" id="results-count">36 companies</div>
+
+      <table class="company-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Tier</th>
+            <th>HQ</th>
+            <th>2024 Rev ($B)</th>
+            <th>Growth</th>
+            <th>Primary TAs</th>
+            <th>Patent Cliff</th>
+          </tr>
+        </thead>
+        <tbody id="company-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- COMPANY DETAIL -->
+    <div class="view" id="view-company-detail"></div>
+
+    <!-- MODALITIES -->
+    <div class="view" id="view-modalities">
+      <header class="page-header">
+        <h1 class="page-title">Modalities · <em>reference</em></h1>
+        <p class="page-desc">Twelve drug development platforms, from mature small molecules to frontier protein degraders. Each card surfaces market size, growth, and China position. Click for the full profile and the companies and products using each modality.</p>
+      </header>
+      <div class="ref-grid" id="modality-grid"></div>
+    </div>
+
+    <div class="view" id="view-modality-detail"></div>
+
+    <!-- THERAPEUTIC AREAS -->
+    <div class="view" id="view-tas">
+      <header class="page-header">
+        <h1 class="page-title">Therapeutic Areas · <em>reference</em></h1>
+        <p class="page-desc">Seven disease categories that organize the pharma industry. Each TA has distinct competitive dynamics, commercialization models, and patent cliff exposures.</p>
+      </header>
+      <div class="ref-grid" id="ta-grid"></div>
+    </div>
+
+    <div class="view" id="view-ta-detail"></div>
+
+    <!-- THEMES -->
+    <div class="view" id="view-themes">
+      <header class="page-header">
+        <h1 class="page-title">Strategic Themes · <em>cross-cutting</em></h1>
+        <p class="page-desc">Thirteen patterns that emerge across the framework. Each maps to specific TAs, companies, and an SEA implication for the Singapore venture context.</p>
+      </header>
+      <div class="themes-grid" id="themes-grid"></div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="view" id="view-about">
+      <header class="page-header">
+        <h1 class="page-title">About this framework</h1>
+      </header>
+      <div style="max-width: 720px; line-height: 1.7; font-size: 14px; color: var(--ink-soft);">
+        <p style="margin-bottom: 16px;">This is the interactive layer (v6.0) of a multi-pass framework for understanding modern pharmaceutical innovation. The framework was built in six passes:</p>
+        <ul style="margin-left: 20px; margin-bottom: 24px;">
+          <li style="margin-bottom: 6px;"><strong>v1.0</strong> · Company Layer — Top 15 pharma + watchlist</li>
+          <li style="margin-bottom: 6px;"><strong>v2.0</strong> · Modality Layer — 12 platforms from small molecules to PROTACs</li>
+          <li style="margin-bottom: 6px;"><strong>v3.0</strong> · Therapeutic Area Layer — 7 TAs with commercialization dynamics</li>
+          <li style="margin-bottom: 6px;"><strong>v4.0</strong> · China Deep Dive — innovation ecosystem + deal flow + BIOSECURE</li>
+          <li style="margin-bottom: 6px;"><strong>v5.0</strong> · Structured Data Layer — normalized Excel database</li>
+          <li style="margin-bottom: 6px;"><strong>v6.0</strong> · This artifact</li>
+        </ul>
+        <p style="margin-bottom: 16px;">The data layer (v5) is the editable master. Update the Excel workbook, regenerate the embedded JSON, and the artifact reflects the changes.</p>
+        <p style="margin-bottom: 16px;">The intended use is industry/strategy understanding for venture-building in Singapore — particularly the China-to-SEA arbitrage thesis that emerged across the framework.</p>
+        <p style="font-family: var(--mono); font-size: 11px; color: var(--ink-faint); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line);">Build date · May 2026 · Data through Q1 2026</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const DATA = {"companies":[{"Company_ID":"C001","Name":"Johnson & Johnson","Ticker":"JNJ","HQ Country":"United States","HQ City":"New Brunswick, NJ","Tier":"T1","2024 Revenue ($B)":57.0,"2024 Growth %":4,"Primary TAs":"Immunology, Oncology, Neuroscience","Patent Cliff Severity":"High (Stelara)","Notes":"Diversified; immunology flywheel"},{"Company_ID":"C002","Name":"Pfizer","Ticker":"PFE","HQ Country":"United States","HQ City":"New York, NY","Tier":"T1","2024 Revenue ($B)":63.0,"2024 Growth %":7,"Primary TAs":"Oncology, Vaccines, Internal Medicine","Patent Cliff Severity":"Medium-High","Notes":"Post-COVID rebuild via Seagen + China BD"},{"Company_ID":"C003","Name":"Roche","Ticker":"RHHBY","HQ Country":"Switzerland","HQ City":"Basel","Tier":"T1","2024 Revenue ($B)":52.0,"2024 Growth %":7,"Primary TAs":"Oncology, Neuroscience, Ophthalmology","Patent Cliff Severity":"Medium","Notes":"Precision medicine + diagnostics integration"},{"Company_ID":"C004","Name":"Merck & Co. (MSD)","Ticker":"MRK","HQ Country":"United States","HQ City":"Rahway, NJ","Tier":"T1","2024 Revenue ($B)":64.0,"2024 Growth %":7,"Primary TAs":"Oncology, Vaccines","Patent Cliff Severity":"Very High (Keytruda)","Notes":"Most exposed in absolute terms; managing transition"},{"Company_ID":"C005","Name":"AbbVie","Ticker":"ABBV","HQ Country":"United States","HQ City":"North Chicago, IL","Tier":"T1","2024 Revenue ($B)":56.0,"2024 Growth %":4,"Primary TAs":"Immunology, Oncology, Neuroscience","Patent Cliff Severity":"Medium (Humira past)","Notes":"Best-in-class patent cliff transition (Humira to Skyrizi/Rinvoq)"},{"Company_ID":"C006","Name":"AstraZeneca","Ticker":"AZN","HQ Country":"United Kingdom","HQ City":"Cambridge","Tier":"T1","2024 Revenue ($B)":54.0,"2024 Growth %":18,"Primary TAs":"Oncology, CV/Renal, Respiratory","Patent Cliff Severity":"Low-Medium","Notes":"Cleanest patent profile; aggressive China BD"},{"Company_ID":"C007","Name":"Novartis","Ticker":"NVS","HQ Country":"Switzerland","HQ City":"Basel","Tier":"T1","2024 Revenue ($B)":50.0,"2024 Growth %":11,"Primary TAs":"Oncology, CV, Immunology","Patent Cliff Severity":"Medium","Notes":"RLT leader (Pluvicto); cardiometabolic strength"},{"Company_ID":"C008","Name":"Eli Lilly","Ticker":"LLY","HQ Country":"United States","HQ City":"Indianapolis, IN","Tier":"T1","2024 Revenue ($B)":45.0,"2024 Growth %":32,"Primary TAs":"Metabolic, Oncology, Immunology","Patent Cliff Severity":"Low","Notes":"Metabolic monopolist; best growth trajectory"},{"Company_ID":"C009","Name":"Sanofi","Ticker":"SNY","HQ Country":"France","HQ City":"Paris","Tier":"T1","2024 Revenue ($B)":44.0,"2024 Growth %":9,"Primary TAs":"Immunology, Vaccines, Rare disease","Patent Cliff Severity":"Medium","Notes":"Focused biopharma post-Opella divestiture"},{"Company_ID":"C010","Name":"Bristol-Myers Squibb","Ticker":"BMY","HQ Country":"United States","HQ City":"New York, NY","Tier":"T1","2024 Revenue ($B)":48.0,"2024 Growth %":7,"Primary TAs":"Oncology, Hematology, Immunology","Patent Cliff Severity":"Very High (Eliquis+Opdivo)","Notes":"Most exposed proportionally; aggressive M&A to fill cliff"},{"Company_ID":"C011","Name":"Novo Nordisk","Ticker":"NVO","HQ Country":"Denmark","HQ City":"Bagsv\u00e6rd","Tier":"T1","2024 Revenue ($B)":42.0,"2024 Growth %":26,"Primary TAs":"Metabolic, Rare","Patent Cliff Severity":"Low","Notes":"Pure-play metabolic specialist"},{"Company_ID":"C012","Name":"GSK","Ticker":"GSK","HQ Country":"United Kingdom","HQ City":"London","Tier":"T1","2024 Revenue ($B)":40.0,"2024 Growth %":3,"Primary TAs":"Vaccines, HIV, Respiratory","Patent Cliff Severity":"Medium","Notes":"Most aggressive China-sourcing strategy in pharma"},{"Company_ID":"C013","Name":"Amgen","Ticker":"AMGN","HQ Country":"United States","HQ City":"Thousand Oaks, CA","Tier":"T1","2024 Revenue ($B)":33.0,"2024 Growth %":19,"Primary TAs":"Oncology, Inflammation, CV/Bone","Patent Cliff Severity":"Medium","Notes":"Biologics-first; MariTide is the metabolic swing factor"},{"Company_ID":"C014","Name":"Takeda","Ticker":"TAK","HQ Country":"Japan","HQ City":"Tokyo","Tier":"T1","2024 Revenue ($B)":30.0,"2024 Growth %":6,"Primary TAs":"Rare disease, GI, Oncology","Patent Cliff Severity":"Medium","Notes":"Japan's only true Big Pharma; rare disease focus"},{"Company_ID":"C015","Name":"Gilead Sciences","Ticker":"GILD","HQ Country":"United States","HQ City":"Foster City, CA","Tier":"T1","2024 Revenue ($B)":28.0,"2024 Growth %":6,"Primary TAs":"HIV, Oncology, Liver","Patent Cliff Severity":"Medium","Notes":"HIV cash machine; lenacapavir is the franchise extension"},{"Company_ID":"C016","Name":"BeOne Medicines (BeiGene)","Ticker":"ONC","HQ Country":"China/Switzerland","HQ City":"San Carlos, CA / Beijing","Tier":"WCN","2024 Revenue ($B)":5.0,"2024 Growth %":55,"Primary TAs":"Oncology","Patent Cliff Severity":"Low","Notes":"BRUKINSA leads global BTK; redomiciling to Switzerland"},{"Company_ID":"C017","Name":"Jiangsu Hengrui Pharmaceuticals","Ticker":"1276.HK","HQ Country":"China","HQ City":"Lianyungang","Tier":"WCN","2024 Revenue ($B)":4.5,"2024 Growth %":13,"Primary TAs":"Oncology, Metabolic, CV","Patent Cliff Severity":"Low","Notes":"Pipeline-deepest Chinese pharma; #1 trial sponsor globally"},{"Company_ID":"C018","Name":"Innovent Biologics","Ticker":"1801.HK","HQ Country":"China","HQ City":"Suzhou","Tier":"WCN","2024 Revenue ($B)":1.4,"2024 Growth %":25,"Primary TAs":"Oncology, Metabolic","Patent Cliff Severity":"Low","Notes":"Strong domestic + global partnerships (Roche ADC)"},{"Company_ID":"C019","Name":"Akeso","Ticker":"9926.HK","HQ Country":"China","HQ City":"Zhongshan","Tier":"WCN","2024 Revenue ($B)":0.4,"2024 Growth %":49,"Primary TAs":"Oncology (Bispecifics)","Patent Cliff Severity":"Low","Notes":"Bispecific leader (ivonescimab, cadonilimab)"},{"Company_ID":"C020","Name":"CSPC Pharmaceutical","Ticker":"1093.HK","HQ Country":"China","HQ City":"Shijiazhuang","Tier":"WCN","2024 Revenue ($B)":4.5,"2024 Growth %":5,"Primary TAs":"Diversified","Patent Cliff Severity":"Low","Notes":"AZ $18.5B alliance partner"},{"Company_ID":"C021","Name":"3S Bio (Sunshine Guojian)","Ticker":"1530.HK","HQ Country":"China","HQ City":"Shenyang","Tier":"WCN","2024 Revenue ($B)":1.0,"2024 Growth %":10,"Primary TAs":"Biologics, Bispecifics","Patent Cliff Severity":"Low","Notes":"Pfizer $1.25B upfront record deal"},{"Company_ID":"C022","Name":"Hansoh Pharma","Ticker":"3692.HK","HQ Country":"China","HQ City":"Lianyungang","Tier":"WCN","2024 Revenue ($B)":2.0,"2024 Growth %":15,"Primary TAs":"Oncology, CNS","Patent Cliff Severity":"Low","Notes":"GSK $1.7B ADC partnership"},{"Company_ID":"C023","Name":"DualityBio (Duality Biologics)","Ticker":"Private","HQ Country":"China","HQ City":"Shanghai","Tier":"WCN","2024 Revenue ($B)":0.0,"2024 Growth %":0,"Primary TAs":"ADCs","Patent Cliff Severity":"","Notes":"Pure-play ADC platform; GSK $1B, BioNTech deals"},{"Company_ID":"C024","Name":"Hutchmed (China)","Ticker":"HCM","HQ Country":"China","HQ City":"Shanghai","Tier":"WCN","2024 Revenue ($B)":1.0,"2024 Growth %":15,"Primary TAs":"Oncology","Patent Cliff Severity":"Low","Notes":"Fruquintinib/Fruzaqla via Takeda partnership"},{"Company_ID":"C025","Name":"LaNova Medicines","Ticker":"Private","HQ Country":"China","HQ City":"Shanghai","Tier":"WCN","2024 Revenue ($B)":0.0,"2024 Growth %":0,"Primary TAs":"ADCs, Bispecifics","Patent Cliff Severity":"","Notes":"Clinical-stage ADC/bispecific specialist"},{"Company_ID":"C026","Name":"Daiichi Sankyo","Ticker":"4568.T","HQ Country":"Japan","HQ City":"Tokyo","Tier":"WSP","2024 Revenue ($B)":25.0,"2024 Growth %":15,"Primary TAs":"Oncology (ADCs)","Patent Cliff Severity":"Low","Notes":"ADC platform leader (DXd) with AZ partnership"},{"Company_ID":"C027","Name":"Regeneron Pharmaceuticals","Ticker":"REGN","HQ Country":"United States","HQ City":"Tarrytown, NY","Tier":"WBT","2024 Revenue ($B)":14.0,"2024 Growth %":8,"Primary TAs":"Ophthalmology, Immunology, Oncology","Patent Cliff Severity":"Medium","Notes":"Eylea franchise + Dupixent royalties with Sanofi"},{"Company_ID":"C028","Name":"Vertex Pharmaceuticals","Ticker":"VRTX","HQ Country":"United States","HQ City":"Boston, MA","Tier":"WBT","2024 Revenue ($B)":11.0,"2024 Growth %":12,"Primary TAs":"Cystic Fibrosis, Hematology, Pain","Patent Cliff Severity":"Low","Notes":"CF monopoly + Casgevy (first CRISPR therapy)"},{"Company_ID":"C029","Name":"Moderna","Ticker":"MRNA","HQ Country":"United States","HQ City":"Cambridge, MA","Tier":"WBT","2024 Revenue ($B)":3.5,"2024 Growth %":-55,"Primary TAs":"Vaccines, Oncology","Patent Cliff Severity":"","Notes":"mRNA platform; oncology pivot post-COVID"},{"Company_ID":"C030","Name":"BioNTech","Ticker":"BNTX","HQ Country":"Germany","HQ City":"Mainz","Tier":"WBT","2024 Revenue ($B)":3.2,"2024 Growth %":-45,"Primary TAs":"Vaccines, Oncology","Patent Cliff Severity":"","Notes":"mRNA + ADC via Biotheus acquisition"},{"Company_ID":"C031","Name":"Argenx","Ticker":"ARGX","HQ Country":"Netherlands","HQ City":"Amsterdam","Tier":"WBT","2024 Revenue ($B)":2.5,"2024 Growth %":70,"Primary TAs":"Autoimmune (Rare)","Patent Cliff Severity":"Low","Notes":"Vyvgart (FcRn) for myasthenia gravis"},{"Company_ID":"C032","Name":"Alnylam Pharmaceuticals","Ticker":"ALNY","HQ Country":"United States","HQ City":"Cambridge, MA","Tier":"WBT","2024 Revenue ($B)":2.0,"2024 Growth %":25,"Primary TAs":"Rare disease, CV","Patent Cliff Severity":"Low","Notes":"siRNA platform leader"},{"Company_ID":"C033","Name":"Biogen","Ticker":"BIIB","HQ Country":"United States","HQ City":"Cambridge, MA","Tier":"WBT","2024 Revenue ($B)":9.0,"2024 Growth %":-3,"Primary TAs":"Neuroscience","Patent Cliff Severity":"Medium","Notes":"Leqembi anti-amyloid (with Eisai); MS franchise declining"},{"Company_ID":"C034","Name":"Legend Biotech","Ticker":"LEGN","HQ Country":"United States/China","HQ City":"Somerset, NJ","Tier":"WBT","2024 Revenue ($B)":0.7,"2024 Growth %":80,"Primary TAs":"Oncology (CAR-T)","Patent Cliff Severity":"Low","Notes":"Carvykti BCMA CAR-T (partnered with JNJ); China origin"},{"Company_ID":"C035","Name":"Intellia Therapeutics","Ticker":"NTLA","HQ Country":"United States","HQ City":"Cambridge, MA","Tier":"WBT","2024 Revenue ($B)":0.1,"2024 Growth %":0,"Primary TAs":"Rare disease (Gene editing)","Patent Cliff Severity":"","Notes":"In vivo CRISPR leader; NTLA-2002 Phase 3 success"},{"Company_ID":"C036","Name":"Arvinas","Ticker":"ARVN","HQ Country":"United States","HQ City":"New Haven, CT","Tier":"WBT","2024 Revenue ($B)":0.1,"2024 Growth %":0,"Primary TAs":"Oncology, Neuroscience (PROTACs)","Patent Cliff Severity":"","Notes":"PROTAC pioneer; vepdegestrant NDA submitted 2025"}],"products":[{"Product_ID":"P001","Brand Name":"Darzalex","Generic Name":"daratumumab","Owner_Company_ID":"C001","Modality_ID":"M02","TA_ID":"TA1","Mechanism/Target":"Anti-CD38 mAb","2024 Global Sales ($B)":11.7,"Patent Expiry (US)":"2029 (biosimilar)","Notes":"Multiple myeloma; JNJ largest product"},{"Product_ID":"P002","Brand Name":"Stelara","Generic Name":"ustekinumab","Owner_Company_ID":"C001","Modality_ID":"M02","TA_ID":"TA2","Mechanism/Target":"Anti-IL-12/23 mAb","2024 Global Sales ($B)":10.4,"Patent Expiry (US)":"2024 LOE","Notes":"Declining post-biosimilar"},{"Product_ID":"P003","Brand Name":"Tremfya","Generic Name":"guselkumab","Owner_Company_ID":"C001","Modality_ID":"M02","TA_ID":"TA2","Mechanism/Target":"Anti-IL-23 mAb","2024 Global Sales ($B)":3.2,"Patent Expiry (US)":"2030+","Notes":"Stelara successor"},{"Product_ID":"P004","Brand Name":"Eliquis","Generic Name":"apixaban","Owner_Company_ID":"C002","Modality_ID":"M01","TA_ID":"TA6","Mechanism/Target":"Factor Xa inhibitor","2024 Global Sales ($B)":7.0,"Patent Expiry (US)":"Apr 2028","Notes":"Co-marketed with BMS (PFE share)"},{"Product_ID":"P005","Brand Name":"Prevnar 20","Generic Name":"pneumococcal conjugate","Owner_Company_ID":"C002","Modality_ID":"M02","TA_ID":"TA7","Mechanism/Target":"20-valent pneumococcal vaccine","2024 Global Sales ($B)":6.4,"Patent Expiry (US)":"2028+","Notes":"Vaccines"},{"Product_ID":"P006","Brand Name":"Vyndaqel/Vyndamax","Generic Name":"tafamidis","Owner_Company_ID":"C002","Modality_ID":"M01","TA_ID":"TA6","Mechanism/Target":"TTR stabilizer","2024 Global Sales ($B)":5.5,"Patent Expiry (US)":"2028","Notes":"ATTR cardiomyopathy"},{"Product_ID":"P007","Brand Name":"Ibrance","Generic Name":"palbociclib","Owner_Company_ID":"C002","Modality_ID":"M01","TA_ID":"TA1","Mechanism/Target":"CDK4/6 inhibitor","2024 Global Sales ($B)":4.4,"Patent Expiry (US)":"2027","Notes":"Breast cancer; declining"},{"Product_ID":"P008","Brand Name":"Padcev","Generic Name":"enfortumab vedotin","Owner_Company_ID":"C002","Modality_ID":"M04","TA_ID":"TA1","Mechanism/Target":"Nectin-4 ADC","2024 Global Sales ($B)":1.6,"Patent Expiry (US)":"2030+","Notes":"Urothelial cancer; via Seagen"},{"Product_ID":"P009","Brand Name":"Ocrevus","Generic Name":"ocrelizumab","Owner_Company_ID":"C003","Modality_ID":"M02","TA_ID":"TA4","Mechanism/Target":"Anti-CD20 mAb","2024 Global Sales ($B)":7.6,"Patent Expiry (US)":"Late 2020s","Notes":"Multiple sclerosis"},{"Product_ID":"P010","Brand Name":"Hemlibra","Generic Name":"emicizumab","Owner_Company_ID":"C003","Modality_ID":"M05","TA_ID":"TA5","Mechanism/Target":"Factor IXa/X bispecific","2024 Global Sales ($B)":4.9,"Patent Expiry (US)":"2027+","Notes":"Hemophilia A"},{"Product_ID":"P011","Brand Name":"Vabysmo","Generic Name":"faricimab","Owner_Company_ID":"C003","Modality_ID":"M05","TA_ID":"TA4","Mechanism/Target":"VEGF/Ang-2 bispecific","2024 Global Sales ($B)":3.5,"Patent Expiry (US)":"2030+","Notes":"Wet AMD/DME; ophthalmology"},{"Product_ID":"P012","Brand Name":"Polivy","Generic Name":"polatuzumab vedotin","Owner_Company_ID":"C003","Modality_ID":"M04","TA_ID":"TA1","Mechanism/Target":"Anti-CD79b ADC","2024 Global Sales ($B)":1.3,"Patent Expiry (US)":"2030+","Notes":"DLBCL"},{"Product_ID":"P013","Brand Name":"Keytruda","Generic Name":"pembrolizumab","Owner_Company_ID":"C004","Modality_ID":"M02","TA_ID":"TA1","Mechanism/Target":"Anti-PD-1 mAb","2024 Global Sales ($B)":29.5,"Patent Expiry (US)":"Dec 2028","Notes":"World's best-selling drug"},{"Product_ID":"P014","Brand Name":"Gardasil","Generic Name":"HPV vaccine","Owner_Company_ID":"C004","Modality_ID":"M02","TA_ID":"TA7","Mechanism/Target":"HPV vaccine","2024 Global Sales ($B)":8.6,"Patent Expiry (US)":"Mature","Notes":"China demand drop in 2024-2025"},{"Product_ID":"P015","Brand Name":"Skyrizi","Generic Name":"risankizumab","Owner_Company_ID":"C005","Modality_ID":"M02","TA_ID":"TA2","Mechanism/Target":"Anti-IL-23 mAb","2024 Global Sales ($B)":17.6,"Patent Expiry (US)":"2030+","Notes":"Psoriasis/IBD; 75% frontline IBD share"},{"Product_ID":"P016","Brand Name":"Rinvoq","Generic Name":"upadacitinib","Owner_Company_ID":"C005","Modality_ID":"M01","TA_ID":"TA2","Mechanism/Target":"JAK1 inhibitor","2024 Global Sales ($B)":8.3,"Patent Expiry (US)":"2030+","Notes":"Multiple immunology indications"},{"Product_ID":"P017","Brand Name":"Humira","Generic Name":"adalimumab","Owner_Company_ID":"C005","Modality_ID":"M02","TA_ID":"TA2","Mechanism/Target":"Anti-TNF mAb","2024 Global Sales ($B)":9.0,"Patent Expiry (US)":"2023 LOE (declining)","Notes":"Once world's best-selling drug"},{"Product_ID":"P018","Brand Name":"Farxiga","Generic Name":"dapagliflozin","Owner_Company_ID":"C006","Modality_ID":"M01","TA_ID":"TA6","Mechanism/Target":"SGLT2 inhibitor","2024 Global Sales ($B)":7.7,"Patent Expiry (US)":"2030+","Notes":"T2D/HF/CKD"},{"Product_ID":"P019","Brand Name":"Tagrisso","Generic Name":"osimertinib","Owner_Company_ID":"C006","Modality_ID":"M01","TA_ID":"TA1","Mechanism/Target":"EGFR TKI","2024 Global Sales ($B)":6.6,"Patent Expiry (US)":"2032","Notes":"EGFR NSCLC"},{"Product_ID":"P020","Brand Name":"Imfinzi","Generic Name":"durvalumab","Owner_Company_ID":"C006","Modality_ID":"M02","TA_ID":"TA1","Mechanism/Target":"Anti-PD-L1 mAb","2024 Global Sales ($B)":4.7,"Patent Expiry (US)":"Late 2020s","Notes":"Multiple oncology indications"},{"Product_ID":"P021","Brand Name":"Lynparza","Generic Name":"olaparib","Owner_Company_ID":"C006","Modality_ID":"M01","TA_ID":"TA1","Mechanism/Target":"PARP inhibitor","2024 Global Sales ($B)":3.4,"Patent Expiry (US)":"2028","Notes":"Multiple cancers"},{"Product_ID":"P022","Brand Name":"Entresto","Generic Name":"sacubitril/valsartan","Owner_Company_ID":"C007","Modality_ID":"M01","TA_ID":"TA6","Mechanism/Target":"Neprilysin inhibitor/ARB","2024 Global Sales ($B)":7.5,"Patent Expiry (US)":"2026 (US)","Notes":"Heart failure"},{"Product_ID":"P023","Brand Name":"Cosentyx","Generic Name":"secukinumab","Owner_Company_ID":"C007","Modality_ID":"M02","TA_ID":"TA2","Mechanism/Target":"Anti-IL-17A mAb","2024 Global Sales ($B)":6.0,"Patent Expiry (US)":"Late 2020s","Notes":"Psoriasis and other"},{"Product_ID":"P024","Brand Name":"Pluvicto","Generic Name":"Lu-177 vipivotide tetraxetan","Owner_Company_ID":"C007","Modality_ID":"M06","TA_ID":"TA1","Mechanism/Target":"PSMA-targeted radioligand","2024 Global Sales ($B)":2.0,"Patent Expiry (US)":"2030+","Notes":"mCRPC; March 2025 earlier-line approval"},{"Product_ID":"P025","Brand Name":"Kesimpta","Generic Name":"ofatumumab","Owner_Company_ID":"C007","Modality_ID":"M02","TA_ID":"TA4","Mechanism/Target":"Anti-CD20 mAb (SC)","2024 Global Sales ($B)":3.2,"Patent Expiry (US)":"Late 2020s","Notes":"Multiple sclerosis"},{"Product_ID":"P026","Brand Name":"Mounjaro/Zepbound","Generic Name":"tirzepatide","Owner_Company_ID":"C008","Modality_ID":"M03","TA_ID":"TA3","Mechanism/Target":"GIP/GLP-1 dual agonist","2024 Global Sales ($B)":30.0,"Patent Expiry (US)":"2032+","Notes":"Fastest-growing drug in pharma history"},{"Product_ID":"P027","Brand Name":"Verzenio","Generic Name":"abemaciclib","Owner_Company_ID":"C008","Modality_ID":"M01","TA_ID":"TA1","Mechanism/Target":"CDK4/6 inhibitor","2024 Global Sales ($B)":5.3,"Patent Expiry (US)":"2030+","Notes":"Breast cancer"},{"Product_ID":"P028","Brand Name":"Trulicity","Generic Name":"dulaglutide","Owner_Company_ID":"C008","Modality_ID":"M03","TA_ID":"TA3","Mechanism/Target":"GLP-1 agonist","2024 Global Sales ($B)":4.0,"Patent Expiry (US)":"2027 (generic)","Notes":"Older GLP-1; declining"},{"Product_ID":"P029","Brand Name":"Kisunla","Generic Name":"donanemab","Owner_Company_ID":"C008","Modality_ID":"M02","TA_ID":"TA4","Mechanism/Target":"Anti-amyloid mAb","2024 Global Sales ($B)":0.5,"Patent Expiry (US)":"2030+","Notes":"Alzheimer's; competing with Leqembi"},{"Product_ID":"P030","Brand Name":"Dupixent","Generic Name":"dupilumab","Owner_Company_ID":"C009","Modality_ID":"M02","TA_ID":"TA2","Mechanism/Target":"Anti-IL-4/IL-13 mAb","2024 Global Sales ($B)":14.0,"Patent Expiry (US)":"2030+","Notes":"AD/asthma/COPD; partnered with Regeneron"},{"Product_ID":"P031","Brand Name":"Beyfortus","Generic Name":"nirsevimab","Owner_Company_ID":"C009","Modality_ID":"M02","TA_ID":"TA7","Mechanism/Target":"Anti-RSV F mAb","2024 Global Sales ($B)":1.85,"Patent Expiry (US)":"2030+","Notes":"Infant RSV prophylaxis; with AZ"},{"Product_ID":"P032","Brand Name":"Opdivo","Generic Name":"nivolumab","Owner_Company_ID":"C010","Modality_ID":"M02","TA_ID":"TA1","Mechanism/Target":"Anti-PD-1 mAb","2024 Global Sales ($B)":9.0,"Patent Expiry (US)":"2028 (US)","Notes":"Original PD-1; major patent cliff"},{"Product_ID":"P033","Brand Name":"Eliquis (BMY)","Generic Name":"apixaban","Owner_Company_ID":"C010","Modality_ID":"M01","TA_ID":"TA6","Mechanism/Target":"Factor Xa inhibitor","2024 Global Sales ($B)":13.0,"Patent Expiry (US)":"Apr 2028","Notes":"BMS share of Eliquis"},{"Product_ID":"P034","Brand Name":"Revlimid","Generic Name":"lenalidomide","Owner_Company_ID":"C010","Modality_ID":"M01","TA_ID":"TA1","Mechanism/Target":"Immunomodulator","2024 Global Sales ($B)":5.0,"Patent Expiry (US)":"LOE","Notes":"Myeloma; declining post-LOE"},{"Product_ID":"P035","Brand Name":"Cobenfy","Generic Name":"xanomeline-trospium","Owner_Company_ID":"C010","Modality_ID":"M01","TA_ID":"TA4","Mechanism/Target":"Muscarinic agonist + anticholinergic","2024 Global Sales ($B)":0.2,"Patent Expiry (US)":"2030+","Notes":"First novel schizophrenia mechanism in decades"},{"Product_ID":"P036","Brand Name":"Ozempic/Wegovy/Rybelsus","Generic Name":"semaglutide","Owner_Company_ID":"C011","Modality_ID":"M03","TA_ID":"TA3","Mechanism/Target":"GLP-1 agonist","2024 Global Sales ($B)":30.0,"Patent Expiry (US)":"Early 2030s","Notes":"Combined semaglutide franchise"},{"Product_ID":"P037","Brand Name":"Shingrix","Generic Name":"zoster vaccine recombinant","Owner_Company_ID":"C012","Modality_ID":"M02","TA_ID":"TA7","Mechanism/Target":"Recombinant zoster vaccine","2024 Global Sales ($B)":4.0,"Patent Expiry (US)":"Late 2020s","Notes":"Shingles vaccine; significant ASEAN exposure"},{"Product_ID":"P038","Brand Name":"Trelegy","Generic Name":"fluticasone/umeclidinium/vilanterol","Owner_Company_ID":"C012","Modality_ID":"M01","TA_ID":"TA2","Mechanism/Target":"Triple inhaler","2024 Global Sales ($B)":3.0,"Patent Expiry (US)":"Late 2020s","Notes":"COPD"},{"Product_ID":"P039","Brand Name":"Dovato","Generic Name":"dolutegravir/lamivudine","Owner_Company_ID":"C012","Modality_ID":"M01","TA_ID":"TA7","Mechanism/Target":"Integrase inhibitor + NRTI","2024 Global Sales ($B)":2.5,"Patent Expiry (US)":"Late 2020s","Notes":"HIV"},{"Product_ID":"P040","Brand Name":"Prolia/Xgeva","Generic Name":"denosumab","Owner_Company_ID":"C013","Modality_ID":"M02","TA_ID":"TA1","Mechanism/Target":"Anti-RANKL mAb","2024 Global Sales ($B)":6.5,"Patent Expiry (US)":"2025-2026","Notes":"Osteoporosis/oncology"},{"Product_ID":"P041","Brand Name":"Repatha","Generic Name":"evolocumab","Owner_Company_ID":"C013","Modality_ID":"M02","TA_ID":"TA6","Mechanism/Target":"Anti-PCSK9 mAb","2024 Global Sales ($B)":2.0,"Patent Expiry (US)":"Late 2020s","Notes":"Cholesterol"},{"Product_ID":"P042","Brand Name":"Tepezza","Generic Name":"teprotumumab","Owner_Company_ID":"C013","Modality_ID":"M02","TA_ID":"TA5","Mechanism/Target":"Anti-IGF-1R mAb","2024 Global Sales ($B)":1.9,"Patent Expiry (US)":"Late 2020s","Notes":"Graves' eye disease; from Horizon"},{"Product_ID":"P043","Brand Name":"Entyvio","Generic Name":"vedolizumab","Owner_Company_ID":"C014","Modality_ID":"M02","TA_ID":"TA2","Mechanism/Target":"Anti-\u03b14\u03b27 mAb","2024 Global Sales ($B)":6.5,"Patent Expiry (US)":"Late 2020s (biosimilars)","Notes":"IBD; Takeda largest"},{"Product_ID":"P044","Brand Name":"Vyvanse","Generic Name":"lisdexamfetamine","Owner_Company_ID":"C014","Modality_ID":"M01","TA_ID":"TA4","Mechanism/Target":"Stimulant prodrug","2024 Global Sales ($B)":2.0,"Patent Expiry (US)":"LOE","Notes":"ADHD; declining post-generics"},{"Product_ID":"P045","Brand Name":"Biktarvy","Generic Name":"bictegravir/emtricitabine/tenofovir alafenamide","Owner_Company_ID":"C015","Modality_ID":"M01","TA_ID":"TA7","Mechanism/Target":"Integrase inhibitor regimen","2024 Global Sales ($B)":13.0,"Patent Expiry (US)":"Early 2030s","Notes":"Largest HIV drug ever"},{"Product_ID":"P046","Brand Name":"Yeztugo","Generic Name":"lenacapavir (PrEP)","Owner_Company_ID":"C015","Modality_ID":"M01","TA_ID":"TA7","Mechanism/Target":"Capsid inhibitor (twice-yearly)","2024 Global Sales ($B)":0.5,"Patent Expiry (US)":"Mid-2030s","Notes":"FDA-approved June 2025; first twice-yearly PrEP"},{"Product_ID":"P047","Brand Name":"Trodelvy","Generic Name":"sacituzumab govitecan","Owner_Company_ID":"C015","Modality_ID":"M04","TA_ID":"TA1","Mechanism/Target":"TROP2 ADC","2024 Global Sales ($B)":1.3,"Patent Expiry (US)":"2030+","Notes":"Breast/urothelial cancer"},{"Product_ID":"P048","Brand Name":"BRUKINSA","Generic Name":"zanubrutinib","Owner_Company_ID":"C016","Modality_ID":"M01","TA_ID":"TA1","Mechanism/Target":"BTK inhibitor","2024 Global Sales ($B)":3.5,"Patent Expiry (US)":"Late 2020s","Notes":"Global BTK class leader; overtook Imbruvica"},{"Product_ID":"P049","Brand Name":"Tevimba","Generic Name":"tislelizumab","Owner_Company_ID":"C016","Modality_ID":"M02","TA_ID":"TA1","Mechanism/Target":"Anti-PD-1 mAb","2024 Global Sales ($B)":0.8,"Patent Expiry (US)":"Late 2020s","Notes":"BeOne's PD-1; global commercialization"},{"Product_ID":"P050","Brand Name":"Camrelizumab","Generic Name":"camrelizumab","Owner_Company_ID":"C017","Modality_ID":"M02","TA_ID":"TA1","Mechanism/Target":"Anti-PD-1 mAb","2024 Global Sales ($B)":1.5,"Patent Expiry (US)":"Late 2020s","Notes":"Hengrui's PD-1; China-focused"},{"Product_ID":"P051","Brand Name":"Pyrotinib","Generic Name":"pyrotinib","Owner_Company_ID":"C017","Modality_ID":"M01","TA_ID":"TA1","Mechanism/Target":"HER2 TKI","2024 Global Sales ($B)":0.8,"Patent Expiry (US)":"Late 2020s","Notes":"Hengrui breast cancer"},{"Product_ID":"P052","Brand Name":"Sintilimab (Tyvyt)","Generic Name":"sintilimab","Owner_Company_ID":"C018","Modality_ID":"M02","TA_ID":"TA1","Mechanism/Target":"Anti-PD-1 mAb","2024 Global Sales ($B)":0.8,"Patent Expiry (US)":"Late 2020s","Notes":"Innovent's foundational product"},{"Product_ID":"P053","Brand Name":"Cadonilimab","Generic Name":"cadonilimab","Owner_Company_ID":"C019","Modality_ID":"M05","TA_ID":"TA1","Mechanism/Target":"PD-1/CTLA-4 bispecific","2024 Global Sales ($B)":0.3,"Patent Expiry (US)":"Late 2020s","Notes":"Akeso; world's first PD-1/CTLA-4 bispecific"},{"Product_ID":"P054","Brand Name":"Ivonescimab","Generic Name":"ivonescimab","Owner_Company_ID":"C019","Modality_ID":"M05","TA_ID":"TA1","Mechanism/Target":"PD-1/VEGF bispecific","2024 Global Sales ($B)":0.2,"Patent Expiry (US)":"Late 2020s","Notes":"Akeso; only commercialized PD-1/VEGF bispecific globally"},{"Product_ID":"P055","Brand Name":"Fruzaqla (Fruquintinib)","Generic Name":"fruquintinib","Owner_Company_ID":"C024","Modality_ID":"M01","TA_ID":"TA1","Mechanism/Target":"VEGFR1/2/3 TKI","2024 Global Sales ($B)":0.4,"Patent Expiry (US)":"Late 2020s","Notes":"Hutchmed/Takeda for CRC"},{"Product_ID":"P056","Brand Name":"Carvykti","Generic Name":"ciltacabtagene autoleucel","Owner_Company_ID":"C034","Modality_ID":"M08","TA_ID":"TA1","Mechanism/Target":"BCMA CAR-T","2024 Global Sales ($B)":1.0,"Patent Expiry (US)":"Late 2020s","Notes":"Legend Biotech/JNJ; best-in-class BCMA CAR-T"},{"Product_ID":"P057","Brand Name":"Enhertu","Generic Name":"trastuzumab deruxtecan","Owner_Company_ID":"C026","Modality_ID":"M04","TA_ID":"TA1","Mechanism/Target":"HER2 ADC (DXd)","2024 Global Sales ($B)":3.75,"Patent Expiry (US)":"2030+","Notes":"Daiichi/AZ; leading global ADC"},{"Product_ID":"P058","Brand Name":"Datroway","Generic Name":"datopotamab deruxtecan","Owner_Company_ID":"C026","Modality_ID":"M04","TA_ID":"TA1","Mechanism/Target":"TROP2 ADC (DXd)","2024 Global Sales ($B)":0.5,"Patent Expiry (US)":"2030+","Notes":"Daiichi/AZ; recent launch"},{"Product_ID":"P059","Brand Name":"Eylea/Eylea HD","Generic Name":"aflibercept","Owner_Company_ID":"C027","Modality_ID":"M02","TA_ID":"TA4","Mechanism/Target":"VEGF trap","2024 Global Sales ($B)":9.0,"Patent Expiry (US)":"Late 2020s (biosimilars)","Notes":"Regeneron ophthalmology"},{"Product_ID":"P060","Brand Name":"Trikafta","Generic Name":"elexacaftor/tezacaftor/ivacaftor","Owner_Company_ID":"C028","Modality_ID":"M01","TA_ID":"TA5","Mechanism/Target":"CFTR modulator combination","2024 Global Sales ($B)":10.0,"Patent Expiry (US)":"Late 2020s","Notes":"Vertex CF franchise"},{"Product_ID":"P061","Brand Name":"Casgevy","Generic Name":"exagamglogene autotemcel","Owner_Company_ID":"C028","Modality_ID":"M10","TA_ID":"TA5","Mechanism/Target":"Ex vivo CRISPR (BCL11A)","2024 Global Sales ($B)":0.3,"Patent Expiry (US)":"N/A (first-in-class)","Notes":"First approved CRISPR therapy (with CRISPR Therapeutics)"},{"Product_ID":"P062","Brand Name":"Comirnaty","Generic Name":"tozinameran","Owner_Company_ID":"C030","Modality_ID":"M11","TA_ID":"TA7","Mechanism/Target":"mRNA COVID vaccine","2024 Global Sales ($B)":2.5,"Patent Expiry (US)":"","Notes":"BioNTech/Pfizer COVID vaccine"},{"Product_ID":"P063","Brand Name":"Spikevax","Generic Name":"elasomeran","Owner_Company_ID":"C029","Modality_ID":"M11","TA_ID":"TA7","Mechanism/Target":"mRNA COVID vaccine","2024 Global Sales ($B)":1.5,"Patent Expiry (US)":"","Notes":"Moderna COVID vaccine"},{"Product_ID":"P064","Brand Name":"Vyvgart","Generic Name":"efgartigimod","Owner_Company_ID":"C031","Modality_ID":"M02","TA_ID":"TA5","Mechanism/Target":"FcRn antagonist","2024 Global Sales ($B)":2.5,"Patent Expiry (US)":"Late 2020s","Notes":"Argenx; myasthenia gravis"},{"Product_ID":"P065","Brand Name":"Amvuttra","Generic Name":"vutrisiran","Owner_Company_ID":"C032","Modality_ID":"M07","TA_ID":"TA5","Mechanism/Target":"TTR siRNA","2024 Global Sales ($B)":0.8,"Patent Expiry (US)":"Late 2020s","Notes":"Alnylam; ATTR amyloidosis"},{"Product_ID":"P066","Brand Name":"Leqembi","Generic Name":"lecanemab","Owner_Company_ID":"C033","Modality_ID":"M02","TA_ID":"TA4","Mechanism/Target":"Anti-amyloid mAb","2024 Global Sales ($B)":0.4,"Patent Expiry (US)":"Late 2020s","Notes":"Biogen/Eisai Alzheimer's"}],"pipeline":[{"Pipeline_ID":"PL01","Asset Name":"Icotrokinra/Icotyde","Owner_Company_ID":"C001","Modality_ID":"M03","TA_ID":"TA2","Mechanism":"Oral peptide IL-23 receptor blocker","Development Phase":"Approved 2025","Expected Launch Year":2026,"Notes":"First targeted oral IL-23"},{"Pipeline_ID":"PL02","Asset Name":"HLD-0915","Owner_Company_ID":"C001","Modality_ID":"M01","TA_ID":"TA1","Mechanism":"Prostate cancer RIPTAC degrader","Development Phase":"Phase 1","Expected Launch Year":2028,"Notes":"From Halda acquisition"},{"Pipeline_ID":"PL03","Asset Name":"Elrexfio","Owner_Company_ID":"C002","Modality_ID":"M05","TA_ID":"TA1","Mechanism":"BCMA x CD3 bispecific","Development Phase":"Approved/ramping","Expected Launch Year":2024,"Notes":"Multiple myeloma"},{"Pipeline_ID":"PL04","Asset Name":"3S Bio PD-1/VEGF bispecific","Owner_Company_ID":"C002","Modality_ID":"M05","TA_ID":"TA1","Mechanism":"PD-1/VEGF bispecific","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"$1.25B upfront record from 3S Bio"},{"Pipeline_ID":"PL05","Asset Name":"Giredestrant","Owner_Company_ID":"C003","Modality_ID":"M01","TA_ID":"TA1","Mechanism":"Oral SERD","Development Phase":"Phase 3","Expected Launch Year":2026,"Notes":"ER+ breast cancer"},{"Pipeline_ID":"PL06","Asset Name":"Astegolimab","Owner_Company_ID":"C003","Modality_ID":"M02","TA_ID":"TA2","Mechanism":"Anti-ST2 mAb","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"COPD"},{"Pipeline_ID":"PL07","Asset Name":"Innovent ADC (IBI343)","Owner_Company_ID":"C003","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"Claudin18.2 ADC","Development Phase":"Phase 2/3","Expected Launch Year":2027,"Notes":"Roche-Innovent partnership"},{"Pipeline_ID":"PL08","Asset Name":"Keytruda Qlex (SC)","Owner_Company_ID":"C004","Modality_ID":"M02","TA_ID":"TA1","Mechanism":"Subcutaneous pembrolizumab","Development Phase":"Approved Sep 2025","Expected Launch Year":2025,"Notes":"Patent cliff defense"},{"Pipeline_ID":"PL09","Asset Name":"Enlicitide decanoate","Owner_Company_ID":"C004","Modality_ID":"M01","TA_ID":"TA6","Mechanism":"Oral PCSK9 inhibitor","Development Phase":"Phase 3 positive","Expected Launch Year":2027,"Notes":"55.8% LDL-C reduction; CNPV"},{"Pipeline_ID":"PL10","Asset Name":"Winrevair","Owner_Company_ID":"C004","Modality_ID":"M02","TA_ID":"TA5","Mechanism":"Activin signaling inhibitor","Development Phase":"Approved/ramping","Expected Launch Year":2024,"Notes":"PAH"},{"Pipeline_ID":"PL11","Asset Name":"Ifinatamab deruxtecan","Owner_Company_ID":"C004","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"B7-H3 ADC","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"SCLC; Daiichi partnership"},{"Pipeline_ID":"PL12","Asset Name":"MK-1406","Owner_Company_ID":"C004","Modality_ID":"M01","TA_ID":"TA7","Mechanism":"Flu antiviral","Development Phase":"Phase 3 (Jan 2027)","Expected Launch Year":2028,"Notes":"High-risk patients"},{"Pipeline_ID":"PL13","Asset Name":"Rinvoq expanded indications","Owner_Company_ID":"C005","Modality_ID":"M01","TA_ID":"TA2","Mechanism":"JAK1 inhibitor (vitiligo, alopecia, SLE)","Development Phase":"Phase 3","Expected Launch Year":2026,"Notes":"5 new indications coming"},{"Pipeline_ID":"PL14","Asset Name":"Emrelis","Owner_Company_ID":"C005","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"c-MET ADC","Development Phase":"Approved","Expected Launch Year":2025,"Notes":"NSCLC"},{"Pipeline_ID":"PL15","Asset Name":"Elahere","Owner_Company_ID":"C005","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"Folate receptor ADC","Development Phase":"Approved/ramping","Expected Launch Year":2023,"Notes":"Ovarian cancer (from ImmunoGen)"},{"Pipeline_ID":"PL16","Asset Name":"Tavapadon","Owner_Company_ID":"C005","Modality_ID":"M01","TA_ID":"TA4","Mechanism":"D1-selective dopamine partial agonist","Development Phase":"Phase 3/Filed","Expected Launch Year":2026,"Notes":"Parkinson's (from Cerevel)"},{"Pipeline_ID":"PL17","Asset Name":"Epkinly","Owner_Company_ID":"C005","Modality_ID":"M05","TA_ID":"TA1","Mechanism":"CD3xCD20 bispecific","Development Phase":"Approved/expanding","Expected Launch Year":2023,"Notes":"Lymphoma"},{"Pipeline_ID":"PL18","Asset Name":"Datroway","Owner_Company_ID":"C006","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"TROP2 ADC","Development Phase":"Approved 2025","Expected Launch Year":2025,"Notes":"Daiichi partnership"},{"Pipeline_ID":"PL19","Asset Name":"Truqap","Owner_Company_ID":"C006","Modality_ID":"M01","TA_ID":"TA1","Mechanism":"AKT inhibitor","Development Phase":"Approved/ramping","Expected Launch Year":2024,"Notes":"Breast cancer"},{"Pipeline_ID":"PL20","Asset Name":"CSPC alliance assets","Owner_Company_ID":"C006","Modality_ID":"M02","TA_ID":"TA1","Mechanism":"Multiple oncology","Development Phase":"Various phases","Expected Launch Year":2027,"Notes":"$18.5B AZ-CSPC alliance"},{"Pipeline_ID":"PL21","Asset Name":"Pluvicto mHSPC expansion","Owner_Company_ID":"C007","Modality_ID":"M06","TA_ID":"TA1","Mechanism":"PSMA radioligand","Development Phase":"Phase 3 positive","Expected Launch Year":2026,"Notes":"Earlier-line prostate cancer"},{"Pipeline_ID":"PL22","Asset Name":"Iptacopan","Owner_Company_ID":"C007","Modality_ID":"M01","TA_ID":"TA5","Mechanism":"Factor B inhibitor","Development Phase":"Approved/ramping","Expected Launch Year":2024,"Notes":"PNH and IgA nephropathy"},{"Pipeline_ID":"PL23","Asset Name":"Leqvio","Owner_Company_ID":"C007","Modality_ID":"M07","TA_ID":"TA6","Mechanism":"siRNA PCSK9","Development Phase":"Approved/ramping","Expected Launch Year":2021,"Notes":"Twice-yearly LDL lowering"},{"Pipeline_ID":"PL24","Asset Name":"Anthos assets","Owner_Company_ID":"C007","Modality_ID":"M02","TA_ID":"TA6","Mechanism":"Cardiovascular","Development Phase":"Various","Expected Launch Year":2027,"Notes":"$3.1B 2025 acquisition"},{"Pipeline_ID":"PL25","Asset Name":"Orforglipron","Owner_Company_ID":"C008","Modality_ID":"M01","TA_ID":"TA3","Mechanism":"Oral small-molecule GLP-1","Development Phase":"Phase 3","Expected Launch Year":2026,"Notes":"Biggest single launch potential; CNPV"},{"Pipeline_ID":"PL26","Asset Name":"Retatrutide","Owner_Company_ID":"C008","Modality_ID":"M03","TA_ID":"TA3","Mechanism":"GIP/GLP-1/glucagon triple agonist","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"Up to 28.7% weight loss"},{"Pipeline_ID":"PL27","Asset Name":"Eloralintide","Owner_Company_ID":"C008","Modality_ID":"M03","TA_ID":"TA3","Mechanism":"Selective amylin receptor agonist","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"Non-GLP-1 mechanism"},{"Pipeline_ID":"PL28","Asset Name":"Tolebrutinib","Owner_Company_ID":"C009","Modality_ID":"M01","TA_ID":"TA4","Mechanism":"Oral BTK inhibitor","Development Phase":"Phase 3","Expected Launch Year":2026,"Notes":"Progressive MS"},{"Pipeline_ID":"PL29","Asset Name":"Itepekimab","Owner_Company_ID":"C009","Modality_ID":"M02","TA_ID":"TA2","Mechanism":"Anti-IL-33 mAb","Development Phase":"Phase 3","Expected Launch Year":2026,"Notes":"COPD"},{"Pipeline_ID":"PL30","Asset Name":"Frexalimab","Owner_Company_ID":"C009","Modality_ID":"M02","TA_ID":"TA2","Mechanism":"Anti-CD40L","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"MS and autoimmune"},{"Pipeline_ID":"PL31","Asset Name":"Cobenfy in AD psychosis","Owner_Company_ID":"C010","Modality_ID":"M01","TA_ID":"TA4","Mechanism":"Muscarinic agonist","Development Phase":"Phase 3 (ADEPT-2)","Expected Launch Year":2027,"Notes":"Bigger opportunity than schizophrenia"},{"Pipeline_ID":"PL32","Asset Name":"Camzyos expansion","Owner_Company_ID":"C010","Modality_ID":"M01","TA_ID":"TA6","Mechanism":"Cardiac myosin inhibitor","Development Phase":"Approved/expanding","Expected Launch Year":2022,"Notes":"HCM franchise"},{"Pipeline_ID":"PL33","Asset Name":"Breyanzi expansion","Owner_Company_ID":"C010","Modality_ID":"M08","TA_ID":"TA1","Mechanism":"CD19 CAR-T","Development Phase":"Approved/expanding","Expected Launch Year":2021,"Notes":"Dec 2025: marginal zone lymphoma"},{"Pipeline_ID":"PL34","Asset Name":"Hengrui-licensed assets","Owner_Company_ID":"C010","Modality_ID":"M02","TA_ID":"TA1","Mechanism":"Multiple oncology","Development Phase":"Various","Expected Launch Year":2027,"Notes":"Hengrui alliance"},{"Pipeline_ID":"PL35","Asset Name":"Vepdegestrant","Owner_Company_ID":"C036","Modality_ID":"M12","TA_ID":"TA1","Mechanism":"ER PROTAC (with Pfizer)","Development Phase":"NDA filed Jun 2025","Expected Launch Year":2026,"Notes":"First PROTAC approval potential"},{"Pipeline_ID":"PL36","Asset Name":"CagriSema","Owner_Company_ID":"C011","Modality_ID":"M03","TA_ID":"TA3","Mechanism":"Cagrilintide + semaglutide","Development Phase":"NDA filed Dec 2025","Expected Launch Year":2026,"Notes":"20.4% weight loss; CNPV"},{"Pipeline_ID":"PL37","Asset Name":"Oral Wegovy","Owner_Company_ID":"C011","Modality_ID":"M03","TA_ID":"TA3","Mechanism":"Oral semaglutide for obesity","Development Phase":"Approved end 2025","Expected Launch Year":2026,"Notes":"First oral GLP-1 for weight loss"},{"Pipeline_ID":"PL38","Asset Name":"Amycretin","Owner_Company_ID":"C011","Modality_ID":"M03","TA_ID":"TA3","Mechanism":"GLP-1/amylin single molecule","Development Phase":"Phase 2/3","Expected Launch Year":2028,"Notes":"22% weight loss in 36 weeks"},{"Pipeline_ID":"PL39","Asset Name":"Akero MASH assets","Owner_Company_ID":"C011","Modality_ID":"M02","TA_ID":"TA5","Mechanism":"FGF21 analogue","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"$4.7B Akero acquisition"},{"Pipeline_ID":"PL40","Asset Name":"Hengrui-licensed assets (12 programs)","Owner_Company_ID":"C012","Modality_ID":"M02","TA_ID":"TA1","Mechanism":"Multiple oncology","Development Phase":"Various","Expected Launch Year":2028,"Notes":"$12B Hengrui alliance"},{"Pipeline_ID":"PL41","Asset Name":"HRS-9821 (COPD)","Owner_Company_ID":"C012","Modality_ID":"M01","TA_ID":"TA2","Mechanism":"PDE3/4 inhibitor","Development Phase":"Phase 2/3","Expected Launch Year":2028,"Notes":"From Hengrui; COPD"},{"Pipeline_ID":"PL42","Asset Name":"Camlipixant","Owner_Company_ID":"C012","Modality_ID":"M01","TA_ID":"TA2","Mechanism":"P2X3 antagonist","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"Chronic cough"},{"Pipeline_ID":"PL43","Asset Name":"Blenrep return","Owner_Company_ID":"C012","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"BCMA ADC","Development Phase":"Phase 3","Expected Launch Year":2026,"Notes":"Myeloma; returning with DREAMM data"},{"Pipeline_ID":"PL44","Asset Name":"MariTide","Owner_Company_ID":"C013","Modality_ID":"M03","TA_ID":"TA3","Mechanism":"GIPR antagonist/GLP-1 agonist (monthly)","Development Phase":"Phase 3","Expected Launch Year":2028,"Notes":"Once-monthly obesity"},{"Pipeline_ID":"PL45","Asset Name":"Bemarituzumab","Owner_Company_ID":"C013","Modality_ID":"M02","TA_ID":"TA1","Mechanism":"Anti-FGFR2b mAb","Development Phase":"Phase 3","Expected Launch Year":2026,"Notes":"Gastric cancer"},{"Pipeline_ID":"PL46","Asset Name":"Imdelltra","Owner_Company_ID":"C013","Modality_ID":"M05","TA_ID":"TA1","Mechanism":"DLL3 BiTE","Development Phase":"Approved/ramping","Expected Launch Year":2024,"Notes":"SCLC"},{"Pipeline_ID":"PL47","Asset Name":"Olpasiran","Owner_Company_ID":"C013","Modality_ID":"M07","TA_ID":"TA6","Mechanism":"Lp(a) siRNA","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"With Arrowhead"},{"Pipeline_ID":"PL48","Asset Name":"Rocatinlimab","Owner_Company_ID":"C013","Modality_ID":"M02","TA_ID":"TA2","Mechanism":"Anti-OX40","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"Atopic dermatitis"},{"Pipeline_ID":"PL49","Asset Name":"Oveporexton","Owner_Company_ID":"C014","Modality_ID":"M01","TA_ID":"TA5","Mechanism":"Orexin-2 agonist","Development Phase":"Phase 3/Filed","Expected Launch Year":2026,"Notes":"Narcolepsy; first-in-class"},{"Pipeline_ID":"PL50","Asset Name":"Lenacapavir treatment","Owner_Company_ID":"C015","Modality_ID":"M01","TA_ID":"TA7","Mechanism":"Capsid inhibitor (BIC/LEN combo)","Development Phase":"Phase 3 (ARTISTRY)","Expected Launch Year":2027,"Notes":"HIV treatment"},{"Pipeline_ID":"PL51","Asset Name":"Anito-cel","Owner_Company_ID":"C015","Modality_ID":"M08","TA_ID":"TA1","Mechanism":"BCMA CAR-T (Arcellx)","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"Myeloma"},{"Pipeline_ID":"PL52","Asset Name":"HRS9531","Owner_Company_ID":"C017","Modality_ID":"M03","TA_ID":"TA3","Mechanism":"GLP-1/GIP dual agonist","Development Phase":"Phase 3 positive","Expected Launch Year":2027,"Notes":"Hengrui obesity"},{"Pipeline_ID":"PL53","Asset Name":"SHR-8068","Owner_Company_ID":"C017","Modality_ID":"M05","TA_ID":"TA1","Mechanism":"PD-1/CTLA-4 dual inhibitor","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"47.2% ORR in HCC"},{"Pipeline_ID":"PL54","Asset Name":"SHR-4849","Owner_Company_ID":"C017","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"DLL3 ADC","Development Phase":"Phase 1/2","Expected Launch Year":2028,"Notes":"Hengrui SCLC ADC"},{"Pipeline_ID":"PL55","Asset Name":"Sonrotoclax","Owner_Company_ID":"C016","Modality_ID":"M01","TA_ID":"TA1","Mechanism":"BCL2 inhibitor","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"BeOne potential best-in-class"},{"Pipeline_ID":"PL56","Asset Name":"BGB-16673","Owner_Company_ID":"C016","Modality_ID":"M12","TA_ID":"TA1","Mechanism":"BTK PROTAC","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"BeOne CDAC"},{"Pipeline_ID":"PL57","Asset Name":"Mazdutide","Owner_Company_ID":"C018","Modality_ID":"M03","TA_ID":"TA3","Mechanism":"GLP-1/glucagon dual agonist","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"Innovent; 14.8% weight loss"},{"Pipeline_ID":"PL58","Asset Name":"AK146D1","Owner_Company_ID":"C019","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"Trop2/Nectin4 bispecific ADC","Development Phase":"Phase 2","Expected Launch Year":2028,"Notes":"Akeso ADC 2.0"},{"Pipeline_ID":"PL59","Asset Name":"AK138D1","Owner_Company_ID":"C019","Modality_ID":"M04","TA_ID":"TA1","Mechanism":"HER3 ADC","Development Phase":"Phase 2","Expected Launch Year":2028,"Notes":"Akeso next-gen ADC"},{"Pipeline_ID":"PL60","Asset Name":"AK150","Owner_Company_ID":"C019","Modality_ID":"M05","TA_ID":"TA1","Mechanism":"Trispecific antibody","Development Phase":"Phase 1","Expected Launch Year":2029,"Notes":"Akeso first trispecific"},{"Pipeline_ID":"PL61","Asset Name":"Ligufalimab","Owner_Company_ID":"C019","Modality_ID":"M02","TA_ID":"TA1","Mechanism":"Anti-CD47 mAb","Development Phase":"Phase 3","Expected Launch Year":2027,"Notes":"Akeso; with cadonilimab/ivonescimab"},{"Pipeline_ID":"PL62","Asset Name":"NTLA-2002","Owner_Company_ID":"C035","Modality_ID":"M10","TA_ID":"TA5","Mechanism":"In vivo CRISPR for HAE","Development Phase":"Phase 3 success Apr 2026","Expected Launch Year":2027,"Notes":"Landmark in vivo gene editing"},{"Pipeline_ID":"PL63","Asset Name":"VERVE-102","Owner_Company_ID":"C035","Modality_ID":"M10","TA_ID":"TA6","Mechanism":"Base editing for FH","Development Phase":"Phase 2","Expected Launch Year":2028,"Notes":"Verve cardiovascular gene editing"},{"Pipeline_ID":"PL64","Asset Name":"Subcutaneous Leqembi induction","Owner_Company_ID":"C033","Modality_ID":"M02","TA_ID":"TA4","Mechanism":"Anti-amyloid mAb (SC)","Development Phase":"FDA review","Expected Launch Year":2026,"Notes":"Removes IV requirement"},{"Pipeline_ID":"PL65","Asset Name":"Donanemab follow-on","Owner_Company_ID":"C008","Modality_ID":"M02","TA_ID":"TA4","Mechanism":"Next-gen anti-amyloid","Development Phase":"Phase 2/3","Expected Launch Year":2028,"Notes":"Lilly Alzheimer's"}],"modalities":[{"Modality_ID":"M01","Name":"Small molecules","Maturity Stage":"Mature","Mechanism Summary":"Chemically synthesized compounds <500Da binding protein targets","2025 Market Size ($B)":700.0,"Growth":"Stable","China Position":"Strong (Hengrui, Hansoh)","Notes":"Workhorse; constantly renewed by new mechanisms"},{"Modality_ID":"M02","Name":"Monoclonal antibodies (mAbs)","Maturity Stage":"Mature","Mechanism Summary":"Lab-engineered antibodies binding single targets with high specificity","2025 Market Size ($B)":250.0,"Growth":"Mature/biosimilar pressure","China Position":"Strong (BeOne, Innovent)","Notes":"Action moved to ADCs and bispecifics; backbone modality"},{"Modality_ID":"M03","Name":"Peptides (incl. GLP-1s)","Maturity Stage":"Growth","Mechanism Summary":"Short amino acid chains, includes GLP-1 supercycle","2025 Market Size ($B)":150.0,"Growth":"~25% (GLP-1)","China Position":"Strong and growing (Hengrui, Innovent, Sciwind)","Notes":"Single most consequential current modality"},{"Modality_ID":"M04","Name":"Antibody-drug conjugates (ADCs)","Maturity Stage":"Growth","Mechanism Summary":"mAb linked via chemical linker to cytotoxic payload","2025 Market Size ($B)":13.5,"Growth":"~9% CAGR","China Position":"Dominant globally","Notes":"Hottest oncology platform; >50% pipeline China-origin"},{"Modality_ID":"M05","Name":"Bispecific antibodies","Maturity Stage":"Growth","Mechanism Summary":"Antibodies engineered to bind two targets simultaneously","2025 Market Size ($B)":10.0,"Growth":"~34% CAGR","China Position":"Dominant in PD-1/VEGF and CD3-TCEs","Notes":"Rapid approval wave 2024-2025"},{"Modality_ID":"M06","Name":"Radioligand therapy (RLT)","Maturity Stage":"Growth","Mechanism Summary":"Targeting ligand linked to therapeutic radioisotope","2025 Market Size ($B)":2.6,"Growth":"~13% CAGR","China Position":"Weak","Notes":"Novartis-led; isotope supply chains are the moat"},{"Modality_ID":"M07","Name":"siRNA / Oligonucleotides","Maturity Stage":"Growth","Mechanism Summary":"Short RNA/DNA sequences blocking mRNA translation","2025 Market Size ($B)":4.0,"Growth":"Strong growth","China Position":"Emerging (Sirnaomics)","Notes":"Moving from rare disease into cardiometabolic"},{"Modality_ID":"M08","Name":"CAR-T cell therapy","Maturity Stage":"Emerging","Mechanism Summary":"Patient T cells engineered ex vivo to express chimeric antigen receptors","2025 Market Size ($B)":6.0,"Growth":"~22% CAGR","China Position":"Strong (Legend Biotech)","Notes":"Heme leadership + autoimmune crossover"},{"Modality_ID":"M09","Name":"Gene therapy (AAV)","Maturity Stage":"Emerging","Mechanism Summary":"Functional gene packaged in AAV vector for in vivo delivery","2025 Market Size ($B)":5.0,"Growth":"Moderate","China Position":"Moderate","Notes":"Pricing model unsolved; rare disease concentrated"},{"Modality_ID":"M10","Name":"Gene editing (CRISPR-based)","Maturity Stage":"Emerging","Mechanism Summary":"CRISPR/Cas systems editing DNA in vivo or ex vivo","2025 Market Size ($B)":0.5,"Growth":"Pre-commercial scaling","China Position":"Moderate clinical","Notes":"Casgevy first approved; in vivo emerging (Intellia Phase 3)"},{"Modality_ID":"M11","Name":"mRNA therapeutics","Maturity Stage":"Emerging","Mechanism Summary":"Synthetic mRNA delivered via LNP instructing cells to produce proteins","2025 Market Size ($B)":12.0,"Growth":"Post-COVID normalizing","China Position":"Moderate","Notes":"Cancer vaccines are the second wave"},{"Modality_ID":"M12","Name":"Protein degraders (PROTACs)","Maturity Stage":"Frontier","Mechanism Summary":"Bifunctional molecules that induce target protein degradation via E3 ligase","2025 Market Size ($B)":0.0,"Growth":"Pre-commercial","China Position":"Strong (BeOne, Cullgen)","Notes":"First Phase 3 readouts 2025; vepdegestrant NDA filed"}],"tas":[{"TA_ID":"TA1","Name":"Oncology","2025 Market Size ($B)":250,"Growth %":12,"Commercialization Channel":"Specialty (hospital/oncology center)","Patent Cliff Exposure":"High (mid-decade)","Notes":"Largest TA; ADCs/bispecifics/CAR-T/RLT all concentrated here"},{"TA_ID":"TA2","Name":"Immunology / I&I","2025 Market Size ($B)":150,"Growth %":7,"Commercialization Channel":"Specialty pharma (rheum/derm/GI)","Patent Cliff Exposure":"Medium (Stelara absorbed)","Notes":"Skyrizi/Rinvoq dominant; CD19 CAR-T crossover emerging"},{"TA_ID":"TA3","Name":"Metabolic (obesity/diabetes/MASH)","2025 Market Size ($B)":160,"Growth %":25,"Commercialization Channel":"Mass-market + specialty","Patent Cliff Exposure":"Low","Notes":"GLP-1 supercycle; whole-body therapeutic dynamic"},{"TA_ID":"TA4","Name":"CNS / Neuroscience","2025 Market Size ($B)":110,"Growth %":5,"Commercialization Channel":"Neurology/psychiatry specialty","Patent Cliff Exposure":"Low-Medium","Notes":"Alzheimer's anti-amyloid wave; psychiatric reinvention"},{"TA_ID":"TA5","Name":"Rare disease","2025 Market Size ($B)":220,"Growth %":10,"Commercialization Channel":"Ultra-specialty (Centers of Excellence)","Patent Cliff Exposure":"Low (orphan exclusivity)","Notes":"Modality innovation often validated here first"},{"TA_ID":"TA6","Name":"Cardiovascular / Renal","2025 Market Size ($B)":130,"Growth %":6,"Commercialization Channel":"Primary care + cardiology","Patent Cliff Exposure":"Very High (Eliquis 2028)","Notes":"Oral PCSK9 + siRNA reinvigorating mature CV"},{"TA_ID":"TA7","Name":"Infectious disease (HIV, vaccines)","2025 Market Size ($B)":80,"Growth %":5,"Commercialization Channel":"PCP + ID specialty + public health","Patent Cliff Exposure":"Medium (Biktarvy)","Notes":"Lenacapavir transformative for HIV prevention"}],"cxm":[{"Company_ID":"C001","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Imbruvica + small molecules"},{"Company_ID":"C001","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Stelara/Tremfya/Darzalex"},{"Company_ID":"C001","Modality_ID":"M03","Strength (1-3)":1,"Notes":"Icotrokinra (oral peptide)"},{"Company_ID":"C001","Modality_ID":"M04","Strength (1-3)":2,"Notes":"Via Seagen ecosystem partnerships"},{"Company_ID":"C001","Modality_ID":"M05","Strength (1-3)":3,"Notes":"Rybrevant, Tecvayli, Talvey BCMA TCEs"},{"Company_ID":"C001","Modality_ID":"M08","Strength (1-3)":1,"Notes":"Carvykti via Legend"},{"Company_ID":"C002","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Eliquis, Ibrance, Paxlovid"},{"Company_ID":"C002","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Multiple immunology and oncology"},{"Company_ID":"C002","Modality_ID":"M04","Strength (1-3)":3,"Notes":"Seagen acquisition - leadership"},{"Company_ID":"C002","Modality_ID":"M05","Strength (1-3)":2,"Notes":"Elrexfio + 3S Bio license"},{"Company_ID":"C002","Modality_ID":"M09","Strength (1-3)":1,"Notes":"Hemophilia gene therapy"},{"Company_ID":"C002","Modality_ID":"M11","Strength (1-3)":3,"Notes":"Comirnaty (with BioNTech)"},{"Company_ID":"C002","Modality_ID":"M12","Strength (1-3)":2,"Notes":"Vepdegestrant with Arvinas"},{"Company_ID":"C003","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Giredestrant, others"},{"Company_ID":"C003","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Foundational mAb leader (Genentech)"},{"Company_ID":"C003","Modality_ID":"M04","Strength (1-3)":2,"Notes":"Polivy + Innovent partnership"},{"Company_ID":"C003","Modality_ID":"M05","Strength (1-3)":3,"Notes":"Hemlibra, Vabysmo, Columvi"},{"Company_ID":"C003","Modality_ID":"M09","Strength (1-3)":1,"Notes":"Spark Therapeutics"},{"Company_ID":"C003","Modality_ID":"M12","Strength (1-3)":1,"Notes":"Multiple degrader programs"},{"Company_ID":"C004","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Januvia legacy, enlicitide"},{"Company_ID":"C004","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Keytruda - largest single mAb"},{"Company_ID":"C004","Modality_ID":"M04","Strength (1-3)":2,"Notes":"Multiple via Daiichi partnership"},{"Company_ID":"C004","Modality_ID":"M11","Strength (1-3)":2,"Notes":"mRNA-4157 with Moderna"},{"Company_ID":"C005","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Rinvoq, Vraylar, Tavapadon"},{"Company_ID":"C005","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Skyrizi/Humira/Tremfya"},{"Company_ID":"C005","Modality_ID":"M04","Strength (1-3)":2,"Notes":"Elahere, Emrelis"},{"Company_ID":"C005","Modality_ID":"M05","Strength (1-3)":2,"Notes":"Epkinly"},{"Company_ID":"C006","Modality_ID":"M01","Strength (1-3)":3,"Notes":"Tagrisso, Truqap, Farxiga, Brilinta"},{"Company_ID":"C006","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Imfinzi, Calquence"},{"Company_ID":"C006","Modality_ID":"M04","Strength (1-3)":3,"Notes":"Daiichi partnership - Enhertu, Datroway"},{"Company_ID":"C006","Modality_ID":"M05","Strength (1-3)":1,"Notes":"Some programs"},{"Company_ID":"C006","Modality_ID":"M06","Strength (1-3)":1,"Notes":"Building RLT presence"},{"Company_ID":"C006","Modality_ID":"M12","Strength (1-3)":1,"Notes":"Multiple internal degrader programs"},{"Company_ID":"C007","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Entresto, Kisqali"},{"Company_ID":"C007","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Cosentyx, Kesimpta"},{"Company_ID":"C007","Modality_ID":"M06","Strength (1-3)":3,"Notes":"Pluvicto, Lutathera - category leader"},{"Company_ID":"C007","Modality_ID":"M07","Strength (1-3)":3,"Notes":"Leqvio (inclisiran)"},{"Company_ID":"C007","Modality_ID":"M08","Strength (1-3)":2,"Notes":"Kymriah (first CAR-T)"},{"Company_ID":"C007","Modality_ID":"M09","Strength (1-3)":2,"Notes":"Zolgensma"},{"Company_ID":"C007","Modality_ID":"M12","Strength (1-3)":1,"Notes":"Luxdegalutamide with Arvinas"},{"Company_ID":"C008","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Verzenio, orforglipron"},{"Company_ID":"C008","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Kisunla, Omvoh, Ebglyss"},{"Company_ID":"C008","Modality_ID":"M03","Strength (1-3)":3,"Notes":"Tirzepatide - category leader"},{"Company_ID":"C009","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Tolebrutinib (oral BTK)"},{"Company_ID":"C009","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Dupixent, Beyfortus, Frexalimab"},{"Company_ID":"C009","Modality_ID":"M11","Strength (1-3)":1,"Notes":"Translate Bio acquisition"},{"Company_ID":"C010","Modality_ID":"M01","Strength (1-3)":3,"Notes":"Eliquis, Revlimid, Cobenfy"},{"Company_ID":"C010","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Opdivo, Reblozyl"},{"Company_ID":"C010","Modality_ID":"M06","Strength (1-3)":2,"Notes":"RayzeBio acquisition"},{"Company_ID":"C010","Modality_ID":"M08","Strength (1-3)":2,"Notes":"Breyanzi, Abecma"},{"Company_ID":"C010","Modality_ID":"M12","Strength (1-3)":2,"Notes":"BMS-986365 PROTAC"},{"Company_ID":"C011","Modality_ID":"M02","Strength (1-3)":1,"Notes":"Some biologics"},{"Company_ID":"C011","Modality_ID":"M03","Strength (1-3)":3,"Notes":"Semaglutide - category co-leader"},{"Company_ID":"C011","Modality_ID":"M07","Strength (1-3)":1,"Notes":"Dicerna acquisition"},{"Company_ID":"C012","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Trelegy, HIV regimens"},{"Company_ID":"C012","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Shingrix, Nucala"},{"Company_ID":"C012","Modality_ID":"M04","Strength (1-3)":2,"Notes":"Hansoh, DualityBio licenses"},{"Company_ID":"C013","Modality_ID":"M01","Strength (1-3)":1,"Notes":"Lumakras, Otezla"},{"Company_ID":"C013","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Prolia, Repatha, Tepezza - biologics first"},{"Company_ID":"C013","Modality_ID":"M03","Strength (1-3)":2,"Notes":"MariTide (monthly GIPR/GLP-1)"},{"Company_ID":"C013","Modality_ID":"M05","Strength (1-3)":2,"Notes":"BiTE platform pioneer; Imdelltra"},{"Company_ID":"C013","Modality_ID":"M07","Strength (1-3)":2,"Notes":"Olpasiran with Arrowhead"},{"Company_ID":"C014","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Vyvanse, Velcade, oveporexton"},{"Company_ID":"C014","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Entyvio"},{"Company_ID":"C014","Modality_ID":"M04","Strength (1-3)":1,"Notes":"Adcetris (with Pfizer/Seagen)"},{"Company_ID":"C015","Modality_ID":"M01","Strength (1-3)":3,"Notes":"Biktarvy, Yeztugo, HCV portfolio"},{"Company_ID":"C015","Modality_ID":"M04","Strength (1-3)":2,"Notes":"Trodelvy"},{"Company_ID":"C015","Modality_ID":"M08","Strength (1-3)":2,"Notes":"Yescarta, Tecartus"},{"Company_ID":"C016","Modality_ID":"M01","Strength (1-3)":3,"Notes":"BRUKINSA leads global"},{"Company_ID":"C016","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Tislelizumab"},{"Company_ID":"C016","Modality_ID":"M04","Strength (1-3)":2,"Notes":"Multiple ADC programs"},{"Company_ID":"C016","Modality_ID":"M05","Strength (1-3)":2,"Notes":"Multispecific antibodies"},{"Company_ID":"C016","Modality_ID":"M12","Strength (1-3)":2,"Notes":"BGB-16673 BTK CDAC"},{"Company_ID":"C017","Modality_ID":"M01","Strength (1-3)":3,"Notes":"Diversified small molecules"},{"Company_ID":"C017","Modality_ID":"M02","Strength (1-3)":3,"Notes":"PD-1 + multiple"},{"Company_ID":"C017","Modality_ID":"M03","Strength (1-3)":3,"Notes":"HRS9531 GLP-1/GIP"},{"Company_ID":"C017","Modality_ID":"M04","Strength (1-3)":3,"Notes":"SHR-4849 + multiple"},{"Company_ID":"C017","Modality_ID":"M05","Strength (1-3)":3,"Notes":"SHR-8068 PD-1/CTLA-4"},{"Company_ID":"C018","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Sintilimab + biosimilars"},{"Company_ID":"C018","Modality_ID":"M03","Strength (1-3)":2,"Notes":"Mazdutide"},{"Company_ID":"C018","Modality_ID":"M04","Strength (1-3)":2,"Notes":"IBI343 with Roche"},{"Company_ID":"C018","Modality_ID":"M05","Strength (1-3)":2,"Notes":"IBI363 PD-1/IL-2"},{"Company_ID":"C019","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Ligufalimab"},{"Company_ID":"C019","Modality_ID":"M04","Strength (1-3)":3,"Notes":"AK146D1, AK138D1 next-gen ADCs"},{"Company_ID":"C019","Modality_ID":"M05","Strength (1-3)":3,"Notes":"Ivonescimab, cadonilimab - bispecific leader"},{"Company_ID":"C020","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Diversified"},{"Company_ID":"C020","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Generics + innovative"},{"Company_ID":"C021","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Biologics specialty"},{"Company_ID":"C021","Modality_ID":"M05","Strength (1-3)":3,"Notes":"Pfizer PD-1/VEGF deal"},{"Company_ID":"C022","Modality_ID":"M01","Strength (1-3)":2,"Notes":"Diversified oncology"},{"Company_ID":"C022","Modality_ID":"M04","Strength (1-3)":3,"Notes":"GSK ADC partnerships"},{"Company_ID":"C023","Modality_ID":"M04","Strength (1-3)":3,"Notes":"Pure-play ADC platform"},{"Company_ID":"C024","Modality_ID":"M01","Strength (1-3)":3,"Notes":"Fruquintinib, oncology TKIs"},{"Company_ID":"C025","Modality_ID":"M04","Strength (1-3)":3,"Notes":"ADC specialist"},{"Company_ID":"C025","Modality_ID":"M05","Strength (1-3)":2,"Notes":"Bispecifics"},{"Company_ID":"C026","Modality_ID":"M04","Strength (1-3)":3,"Notes":"DXd platform leader globally"},{"Company_ID":"C026","Modality_ID":"M05","Strength (1-3)":1,"Notes":"Some bispecifics"},{"Company_ID":"C027","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Eylea, Dupixent (Sanofi), Praluent, multiple"},{"Company_ID":"C027","Modality_ID":"M05","Strength (1-3)":2,"Notes":"Lynozyfic, others"},{"Company_ID":"C028","Modality_ID":"M01","Strength (1-3)":3,"Notes":"Trikafta CFTR modulators"},{"Company_ID":"C028","Modality_ID":"M10","Strength (1-3)":3,"Notes":"Casgevy with CRISPR Therapeutics"},{"Company_ID":"C029","Modality_ID":"M11","Strength (1-3)":3,"Notes":"mRNA platform leader"},{"Company_ID":"C030","Modality_ID":"M11","Strength (1-3)":3,"Notes":"mRNA platform; Comirnaty"},{"Company_ID":"C030","Modality_ID":"M05","Strength (1-3)":2,"Notes":"Biotheus bispecifics"},{"Company_ID":"C031","Modality_ID":"M02","Strength (1-3)":3,"Notes":"Vyvgart FcRn"},{"Company_ID":"C032","Modality_ID":"M07","Strength (1-3)":3,"Notes":"siRNA platform leader (Onpattro, Amvuttra)"},{"Company_ID":"C033","Modality_ID":"M02","Strength (1-3)":2,"Notes":"Leqembi anti-amyloid"},{"Company_ID":"C033","Modality_ID":"M07","Strength (1-3)":1,"Notes":"Spinraza ASO"},{"Company_ID":"C034","Modality_ID":"M08","Strength (1-3)":3,"Notes":"Carvykti BCMA CAR-T"},{"Company_ID":"C035","Modality_ID":"M10","Strength (1-3)":3,"Notes":"In vivo CRISPR leader (NTLA-2002 Phase 3)"},{"Company_ID":"C036","Modality_ID":"M12","Strength (1-3)":3,"Notes":"PROTAC pioneer (vepdegestrant)"}],"cxta":[{"Company_ID":"C001","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Darzalex anchor + Tecvayli/Talvey/Rybrevant"},{"Company_ID":"C001","TA_ID":"TA2","Strength (1-3)":3,"Notes":"Stelara/Tremfya/Skyrizi"},{"Company_ID":"C001","TA_ID":"TA4","Strength (1-3)":2,"Notes":"Caplyta via Intra-Cellular; Spravato"},{"Company_ID":"C001","TA_ID":"TA5","Strength (1-3)":2,"Notes":"Some rare immunology"},{"Company_ID":"C002","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Seagen ADCs, Ibrance, Padcev"},{"Company_ID":"C002","TA_ID":"TA5","Strength (1-3)":2,"Notes":"Vyndaqel"},{"Company_ID":"C002","TA_ID":"TA6","Strength (1-3)":3,"Notes":"Eliquis (with BMS)"},{"Company_ID":"C002","TA_ID":"TA7","Strength (1-3)":3,"Notes":"Prevnar, Comirnaty, Paxlovid"},{"Company_ID":"C002","TA_ID":"TA3","Strength (1-3)":1,"Notes":"Metsera obesity entry"},{"Company_ID":"C003","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Multiple oncology"},{"Company_ID":"C003","TA_ID":"TA4","Strength (1-3)":3,"Notes":"Ocrevus MS + Alzheimer's pipeline"},{"Company_ID":"C003","TA_ID":"TA5","Strength (1-3)":2,"Notes":"Hemlibra hemophilia"},{"Company_ID":"C003","TA_ID":"TA2","Strength (1-3)":2,"Notes":"Some immunology"},{"Company_ID":"C004","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Keytruda anchor"},{"Company_ID":"C004","TA_ID":"TA6","Strength (1-3)":2,"Notes":"Enlicitide + Winrevair"},{"Company_ID":"C004","TA_ID":"TA7","Strength (1-3)":3,"Notes":"Gardasil + flu antiviral"},{"Company_ID":"C005","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Imbruvica, Elahere, Emrelis, Epkinly"},{"Company_ID":"C005","TA_ID":"TA2","Strength (1-3)":3,"Notes":"Humira/Skyrizi/Rinvoq"},{"Company_ID":"C005","TA_ID":"TA4","Strength (1-3)":3,"Notes":"AbbVie neuroscience via Allergan + Cerevel"},{"Company_ID":"C006","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Tagrisso, Imfinzi, Datroway, Calquence"},{"Company_ID":"C006","TA_ID":"TA6","Strength (1-3)":3,"Notes":"Farxiga, Brilinta"},{"Company_ID":"C006","TA_ID":"TA2","Strength (1-3)":2,"Notes":"Tezspire (with Amgen)"},{"Company_ID":"C006","TA_ID":"TA5","Strength (1-3)":3,"Notes":"Alexion: Soliris, Ultomiris"},{"Company_ID":"C007","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Kisqali, Pluvicto"},{"Company_ID":"C007","TA_ID":"TA2","Strength (1-3)":3,"Notes":"Cosentyx, Kesimpta"},{"Company_ID":"C007","TA_ID":"TA6","Strength (1-3)":3,"Notes":"Entresto, Leqvio"},{"Company_ID":"C007","TA_ID":"TA5","Strength (1-3)":2,"Notes":"Iptacopan, Zolgensma"},{"Company_ID":"C008","TA_ID":"TA3","Strength (1-3)":3,"Notes":"Tirzepatide - category leader"},{"Company_ID":"C008","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Verzenio, Jaypirca"},{"Company_ID":"C008","TA_ID":"TA4","Strength (1-3)":3,"Notes":"Kisunla Alzheimer's"},{"Company_ID":"C008","TA_ID":"TA2","Strength (1-3)":2,"Notes":"Omvoh, Ebglyss"},{"Company_ID":"C009","TA_ID":"TA2","Strength (1-3)":3,"Notes":"Dupixent dominant"},{"Company_ID":"C009","TA_ID":"TA4","Strength (1-3)":2,"Notes":"Tolebrutinib MS"},{"Company_ID":"C009","TA_ID":"TA7","Strength (1-3)":3,"Notes":"Vaccines + Beyfortus"},{"Company_ID":"C009","TA_ID":"TA5","Strength (1-3)":2,"Notes":"Rare disease (Genzyme)"},{"Company_ID":"C010","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Opdivo, Revlimid, Breyanzi"},{"Company_ID":"C010","TA_ID":"TA6","Strength (1-3)":3,"Notes":"Eliquis + Camzyos"},{"Company_ID":"C010","TA_ID":"TA4","Strength (1-3)":2,"Notes":"Cobenfy"},{"Company_ID":"C010","TA_ID":"TA2","Strength (1-3)":2,"Notes":"Sotyktu"},{"Company_ID":"C011","TA_ID":"TA3","Strength (1-3)":3,"Notes":"Semaglutide co-leader"},{"Company_ID":"C011","TA_ID":"TA5","Strength (1-3)":2,"Notes":"Some rare"},{"Company_ID":"C012","TA_ID":"TA7","Strength (1-3)":3,"Notes":"Vaccines + HIV (ViiV)"},{"Company_ID":"C012","TA_ID":"TA2","Strength (1-3)":2,"Notes":"Trelegy, Nucala"},{"Company_ID":"C012","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Blenrep, Hengrui assets"},{"Company_ID":"C013","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Imdelltra, Lumakras"},{"Company_ID":"C013","TA_ID":"TA2","Strength (1-3)":2,"Notes":"Tezspire, Otezla"},{"Company_ID":"C013","TA_ID":"TA5","Strength (1-3)":3,"Notes":"Tepezza, Krystexxa"},{"Company_ID":"C013","TA_ID":"TA6","Strength (1-3)":2,"Notes":"Repatha, Olpasiran"},{"Company_ID":"C013","TA_ID":"TA3","Strength (1-3)":2,"Notes":"MariTide pipeline"},{"Company_ID":"C014","TA_ID":"TA5","Strength (1-3)":3,"Notes":"Shire legacy - rare disease"},{"Company_ID":"C014","TA_ID":"TA2","Strength (1-3)":3,"Notes":"Entyvio IBD"},{"Company_ID":"C014","TA_ID":"TA4","Strength (1-3)":2,"Notes":"Oveporexton, Vyvanse"},{"Company_ID":"C015","TA_ID":"TA7","Strength (1-3)":3,"Notes":"HIV + Yeztugo"},{"Company_ID":"C015","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Trodelvy, CAR-T"},{"Company_ID":"C016","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Pure-play oncology"},{"Company_ID":"C017","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Diversified oncology"},{"Company_ID":"C017","TA_ID":"TA3","Strength (1-3)":2,"Notes":"HRS9531"},{"Company_ID":"C017","TA_ID":"TA6","Strength (1-3)":2,"Notes":"HRS-5346, HRS-1893"},{"Company_ID":"C017","TA_ID":"TA2","Strength (1-3)":1,"Notes":"HRS-9821"},{"Company_ID":"C018","TA_ID":"TA1","Strength (1-3)":3,"Notes":"PD-1, ADCs, bispecifics"},{"Company_ID":"C018","TA_ID":"TA3","Strength (1-3)":2,"Notes":"Mazdutide"},{"Company_ID":"C019","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Bispecific oncology focus"},{"Company_ID":"C019","TA_ID":"TA2","Strength (1-3)":1,"Notes":"Bispecifics moving into autoimmune"},{"Company_ID":"C020","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Oncology focus"},{"Company_ID":"C021","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Pfizer PD-1/VEGF deal"},{"Company_ID":"C022","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Oncology focus"},{"Company_ID":"C022","TA_ID":"TA4","Strength (1-3)":2,"Notes":"CNS"},{"Company_ID":"C023","TA_ID":"TA1","Strength (1-3)":3,"Notes":"ADCs for oncology"},{"Company_ID":"C024","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Oncology (fruquintinib)"},{"Company_ID":"C025","TA_ID":"TA1","Strength (1-3)":3,"Notes":"ADCs and bispecifics"},{"Company_ID":"C026","TA_ID":"TA1","Strength (1-3)":3,"Notes":"ADC oncology dominance"},{"Company_ID":"C027","TA_ID":"TA4","Strength (1-3)":3,"Notes":"Eylea ophthalmology"},{"Company_ID":"C027","TA_ID":"TA2","Strength (1-3)":2,"Notes":"Dupixent royalty"},{"Company_ID":"C027","TA_ID":"TA1","Strength (1-3)":2,"Notes":"Lynozyfic + others"},{"Company_ID":"C028","TA_ID":"TA5","Strength (1-3)":3,"Notes":"CF + sickle cell"},{"Company_ID":"C028","TA_ID":"TA3","Strength (1-3)":1,"Notes":"VX-880 type 1 diabetes"},{"Company_ID":"C029","TA_ID":"TA7","Strength (1-3)":2,"Notes":"COVID + RSV"},{"Company_ID":"C029","TA_ID":"TA1","Strength (1-3)":2,"Notes":"mRNA cancer vaccines"},{"Company_ID":"C030","TA_ID":"TA7","Strength (1-3)":2,"Notes":"COVID"},{"Company_ID":"C030","TA_ID":"TA1","Strength (1-3)":2,"Notes":"mRNA cancer vaccines + bispecifics"},{"Company_ID":"C031","TA_ID":"TA5","Strength (1-3)":3,"Notes":"Myasthenia gravis + autoimmune rare"},{"Company_ID":"C032","TA_ID":"TA5","Strength (1-3)":3,"Notes":"ATTR amyloidosis"},{"Company_ID":"C032","TA_ID":"TA6","Strength (1-3)":2,"Notes":"Lp(a) and others"},{"Company_ID":"C033","TA_ID":"TA4","Strength (1-3)":3,"Notes":"MS + Alzheimer's"},{"Company_ID":"C034","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Carvykti BCMA CAR-T"},{"Company_ID":"C035","TA_ID":"TA5","Strength (1-3)":3,"Notes":"In vivo CRISPR rare disease"},{"Company_ID":"C035","TA_ID":"TA6","Strength (1-3)":2,"Notes":"Verve cardiovascular gene editing"},{"Company_ID":"C036","TA_ID":"TA1","Strength (1-3)":3,"Notes":"Oncology PROTACs"},{"Company_ID":"C036","TA_ID":"TA4","Strength (1-3)":2,"Notes":"ARV-102 Parkinson's"}],"themes":[{"Theme_ID":"ST01","Theme":"The GLP-1 supercycle","Description":"Largest single growth engine in pharma; metabolic franchise will exceed $150B by 2030; whole-body therapeutic dynamic expanding into CV, MASH, sleep apnea, Alzheimer's research","Primary TA(s)":"Metabolic","Key Companies":"Lilly, Novo, Hengrui, Innovent, Amgen","SEA Implication":"Highest accessibility for SEA commercialization; supply constrained globally"},{"Theme_ID":"ST02","Theme":"$200-300B patent cliff (2025-2030)","Description":"Keytruda, Eliquis, Opdivo concentrated in 2026-2028; 8 of 13 largest pharma face >30% revenue exposure","Primary TA(s)":"Multiple (Onc, CV, Immuno)","Key Companies":"Merck, BMS, JNJ, AbbVie (past)","SEA Implication":"Creates biosimilar/generic opportunities for SEA manufacturing"},{"Theme_ID":"ST03","Theme":"China as primary innovation source","Description":"More than half of ADC, bispecific, CAR-T pipeline is China-originated or China-partnered; $135.66B outbound deal value in 2025 (+161% YoY)","Primary TA(s)":"Multiple (Onc focused)","Key Companies":"BeOne, Hengrui, Innovent, Akeso, CSPC, 3S Bio","SEA Implication":"Central to China-to-SEA arbitrage thesis"},{"Theme_ID":"ST04","Theme":"ADC platform leadership","Description":"$13.5B market with 15+ approved; >$5B in deals since Jan 2025; Daiichi DXd platform dominant","Primary TA(s)":"Oncology","Key Companies":"Daiichi, AZ, Pfizer (Seagen), Gilead, Roche, DualityBio, Hansoh, LaNova","SEA Implication":"High-margin specialty oncology; SEA commercialization opportunity"},{"Theme_ID":"ST05","Theme":"Bispecific antibody wave","Description":"$10B market growing 34% CAGR; 15+ approved; over 40% of recent deals in autoimmune","Primary TA(s)":"Oncology + emerging Autoimmune","Key Companies":"Roche, Amgen, JNJ, Akeso, 3S Bio, Innovent","SEA Implication":"PD-1/VEGF bispecifics may displace immuno-oncology mAbs"},{"Theme_ID":"ST06","Theme":"Oral reformulation defensive moat","Description":"Oral Wegovy, orforglipron, enlicitide oral PCSK9, oral icotrokinra IL-23 - oral versions of biologic-class mechanisms","Primary TA(s)":"Multiple (Metabolic, CV, Immuno)","Key Companies":"Lilly, Novo, Merck, JNJ","SEA Implication":"Lower manufacturing cost expands SEA accessibility"},{"Theme_ID":"ST07","Theme":"CD19 CAR-T crossover into autoimmune","Description":"CAR-T being repurposed for SLE, MS, myasthenia gravis with potentially curative early data","Primary TA(s)":"Autoimmune (from Oncology)","Key Companies":"Multiple cell therapy companies","SEA Implication":"Long-term: converts $400K cell therapy into curative autoimmune treatment"},{"Theme_ID":"ST08","Theme":"Whole-body GLP-1 therapeutic","Description":"GLP-1s now have data across diabetes, obesity, CV, kidney, MASH, sleep apnea, knee OA, Alzheimer's research - the TAM keeps expanding","Primary TA(s)":"Cross-TA (centered Metabolic)","Key Companies":"Lilly, Novo","SEA Implication":"Drugs transcend traditional TA boundaries"},{"Theme_ID":"ST09","Theme":"Lenacapavir HIV prevention transformation","Description":"Twice-yearly injectable PrEP approved 2025; could reshape HIV prevention globally where adherence is limiting factor","Primary TA(s)":"Infectious","Key Companies":"Gilead","SEA Implication":"Major SEA public health opportunity"},{"Theme_ID":"ST10","Theme":"NewCo template for Chinese assets","Description":"Kailera (KLRA) IPO'd 2026 proving the model; Braveheart, Verdiva, others following","Primary TA(s)":"Multiple","Key Companies":"Western VCs + Chinese originators","SEA Implication":"Singapore-NewCo could be the SEA equivalent"},{"Theme_ID":"ST11","Theme":"BIOSECURE Act narrow but real","Description":"Signed Dec 18, 2025; targets services not assets; 5-year grandfather; Singapore as neutral base becomes more valuable","Primary TA(s)":"Cross-cutting","Key Companies":"Geopolitical context","SEA Implication":"Singapore positioning advantage"},{"Theme_ID":"ST12","Theme":"Radioligand therapy structural moat","Description":"Novartis multi-year head start; isotope supply chains and licensing impossible to copy; Pluvicto/Lutathera $2.8B combined 2025","Primary TA(s)":"Oncology","Key Companies":"Novartis dominant; BMS via RayzeBio","SEA Implication":"Specialty infrastructure barrier limits SEA opportunity"},{"Theme_ID":"ST13","Theme":"Vaccine + ID consolidation","Description":"Post-COVID rebalancing; lenacapavir voluntary licensing to generics opens generic SEA channel; vaccine innovation in CMV, RSV, flu","Primary TA(s)":"Infectious / vaccines","Key Companies":"Gilead, Moderna, BioNTech, Sanofi, GSK, Merck","SEA Implication":"Public health channel commercialization opportunity"}]}
+;
+
+// Region mapping
+const REGION_MAP = {
+  'United States': 'US',
+  'Switzerland': 'EU',
+  'United Kingdom': 'EU',
+  'France': 'EU',
+  'Germany': 'EU',
+  'Denmark': 'EU',
+  'Netherlands': 'EU',
+  'China': 'Asia',
+  'Japan': 'Asia',
+  'China/Switzerland': 'Asia',
+  'United States/China': 'Asia',
+};
+
+// State
+let state = {
+  view: 'companies',
+  filters: { tier: '', region: '', ta: '', growth: '' },
+  selectedCo: null,
+  selectedMod: null,
+  selectedTA: null,
+};
+
+// === DOM helpers ===
+function el(html) {
+  const d = document.createElement('div');
+  d.innerHTML = html.trim();
+  return d.firstChild;
+}
+
+function $(s) { return document.querySelector(s); }
+function $$(s) { return Array.from(document.querySelectorAll(s)); }
+
+// === Lookups ===
+function getCompany(id) { return DATA.companies.find(c => c.Company_ID === id); }
+function getModality(id) { return DATA.modalities.find(m => m.Modality_ID === id); }
+function getTA(id) { return DATA.tas.find(t => t.TA_ID === id); }
+
+function getCompanyProducts(id) {
+  return DATA.products.filter(p => p.Owner_Company_ID === id);
+}
+function getCompanyPipeline(id) {
+  return DATA.pipeline.filter(p => p.Owner_Company_ID === id);
+}
+function getCompanyModalities(id) {
+  return DATA.cxm.filter(r => r.Company_ID === id);
+}
+function getCompanyTAs(id) {
+  return DATA.cxta.filter(r => r.TA_ID && r.Company_ID === id);
+}
+function getModalityCompanies(modId) {
+  return DATA.cxm.filter(r => r.Modality_ID === modId);
+}
+function getModalityProducts(modId) {
+  return DATA.products.filter(p => p.Modality_ID === modId);
+}
+function getModalityPipeline(modId) {
+  return DATA.pipeline.filter(p => p.Modality_ID === modId);
+}
+function getTACompanies(taId) {
+  return DATA.cxta.filter(r => r.TA_ID === taId);
+}
+function getTAProducts(taId) {
+  return DATA.products.filter(p => p.TA_ID === taId);
+}
+function getTAPipeline(taId) {
+  return DATA.pipeline.filter(p => p.TA_ID === taId);
+}
+
+// === Render: Sidebar counts ===
+function renderCounts() {
+  $('#nav-co-count').textContent = DATA.companies.length;
+  $('#nav-m-count').textContent = DATA.modalities.length;
+  $('#nav-ta-count').textContent = DATA.tas.length;
+  $('#nav-t-count').textContent = DATA.themes.length;
+}
+
+// === Render: Companies list ===
+function renderCompanies() {
+  // Populate TA filter (use createElement for options - browsers strip them from innerHTML in non-select contexts)
+  const taSelect = $('#f-ta');
+  if (taSelect.children.length === 1) {
+    DATA.tas.forEach(ta => {
+      const opt = document.createElement('option');
+      opt.value = ta.TA_ID;
+      opt.textContent = ta.Name;
+      taSelect.appendChild(opt);
+    });
+  }
+
+  const f = state.filters;
+  let cos = DATA.companies.filter(c => {
+    if (f.tier && c.Tier !== f.tier) return false;
+    if (f.region && REGION_MAP[c['HQ Country']] !== f.region) return false;
+    if (f.ta) {
+      const has = DATA.cxta.some(r => r.Company_ID === c.Company_ID && r.TA_ID === f.ta && r['Strength (1-3)'] >= 2);
+      if (!has) return false;
+    }
+    if (f.growth) {
+      const g = parseFloat(c['2024 Growth %']) || 0;
+      if (f.growth === 'declining' && g >= 0) return false;
+      if (f.growth === 'flat' && (g < 0 || g >= 5)) return false;
+      if (f.growth === 'growing' && (g < 5 || g >= 20)) return false;
+      if (f.growth === 'hyper' && g < 20) return false;
+    }
+    return true;
+  });
+
+  cos.sort((a, b) => (parseFloat(b['2024 Revenue ($B)']) || 0) - (parseFloat(a['2024 Revenue ($B)']) || 0));
+
+  $('#results-count').textContent = cos.length + ' compan' + (cos.length === 1 ? 'y' : 'ies');
+
+  const tbody = $('#company-tbody');
+  // Build entire tbody HTML at once - this works because innerHTML on tbody properly parses tr elements
+  const rowsHtml = cos.map(c => {
+    const growth = parseFloat(c['2024 Growth %']) || 0;
+    const growthClass = growth > 0 ? 'metric-positive' : growth < 0 ? 'metric-negative' : '';
+    const growthDisplay = (growth > 0 ? '+' : '') + growth.toFixed(0) + '%';
+    const pcText = String(c['Patent Cliff Severity'] || 'N/A');
+    const pcClass = pcText.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
+    return `<tr data-id="${c.Company_ID}">
+      <td>
+        <div class="company-name">${c.Name}</div>
+        <div class="company-ticker">${c.Ticker || ''}</div>
+      </td>
+      <td><span class="tier-badge tier-${c.Tier}">${c.Tier}</span></td>
+      <td><div style="font-size: 12.5px;">${c['HQ City'] || ''}</div><div class="company-ticker">${c['HQ Country'] || ''}</div></td>
+      <td class="metric">$${parseFloat(c['2024 Revenue ($B)'] || 0).toFixed(1)}B</td>
+      <td class="metric ${growthClass}">${growthDisplay}</td>
+      <td style="font-size: 12px; color: var(--ink-light);">${c['Primary TAs'] || ''}</td>
+      <td><span class="pc-severity pc-${pcClass}">${pcText}</span></td>
+    </tr>`;
+  }).join('');
+  tbody.innerHTML = rowsHtml;
+  // Attach click handlers after rendering
+  tbody.querySelectorAll('tr[data-id]').forEach(tr => {
+    tr.addEventListener('click', () => selectCompany(tr.getAttribute('data-id')));
+  });
+}
+
+// === Render: Company detail ===
+function selectCompany(id) {
+  state.selectedCo = id;
+  state.view = 'company-detail';
+  switchView();
+  renderCompanyDetail();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderCompanyDetail() {
+  const c = getCompany(state.selectedCo);
+  if (!c) return;
+
+  const products = getCompanyProducts(c.Company_ID).sort((a, b) =>
+    (parseFloat(b['2024 Global Sales ($B)']) || 0) - (parseFloat(a['2024 Global Sales ($B)']) || 0));
+  const pipe = getCompanyPipeline(c.Company_ID).sort((a, b) =>
+    (parseInt(a['Expected Launch Year']) || 9999) - (parseInt(b['Expected Launch Year']) || 9999));
+  const mods = getCompanyModalities(c.Company_ID).sort((a, b) => b['Strength (1-3)'] - a['Strength (1-3)']);
+  const tas = getCompanyTAs(c.Company_ID).sort((a, b) => b['Strength (1-3)'] - a['Strength (1-3)']);
+
+  const growth = parseFloat(c['2024 Growth %']) || 0;
+  const growthClass = growth > 0 ? 'metric-positive' : growth < 0 ? 'metric-negative' : '';
+
+  const pcText = String(c['Patent Cliff Severity'] || 'N/A');
+  const pcClass = pcText.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
+
+  let html = `
+    <button class="detail-back" onclick="backTo('companies')">← Back to companies</button>
+    <div class="detail-header">
+      <div class="detail-meta">
+        <span class="tier-badge tier-${c.Tier}">${c.Tier}</span>
+        <span class="detail-ticker">${c.Ticker || ''}</span>
+        <span class="detail-ticker">${c['HQ City']}, ${c['HQ Country']}</span>
+      </div>
+      <h1 class="detail-title">${c.Name}</h1>
+      <p class="detail-notes">${c.Notes || ''}</p>
+    </div>
+
+    <div class="detail-stats">
+      <div class="stat"><div class="stat-label">2024 Revenue</div><div class="stat-value">$${parseFloat(c['2024 Revenue ($B)'] || 0).toFixed(1)}B</div></div>
+      <div class="stat"><div class="stat-label">YoY Growth</div><div class="stat-value ${growthClass}">${(growth > 0 ? '+' : '') + growth.toFixed(0)}%</div></div>
+      <div class="stat"><div class="stat-label">Patent Cliff</div><div class="stat-value" style="font-size: 16px; padding-top: 4px;"><span class="pc-severity pc-${pcClass}">${pcText}</span></div></div>
+      <div class="stat"><div class="stat-label">Approved · Pipeline</div><div class="stat-value">${products.length} · ${pipe.length}</div></div>
+    </div>
+
+    <div class="detail-grid">
+      <div>
+        <h2 class="section-title">Approved Products</h2>
+        <div class="section-sub">Sorted by 2024 sales · ${products.length} products</div>
+        ${products.length === 0 ? '<div class="empty-state">No approved products in dataset.</div>' :
+          `<table class="asset-table">
+            <thead><tr><th>Product</th><th>Modality / TA</th><th>2024 Sales</th><th>Patent</th></tr></thead>
+            <tbody>
+              ${products.map(p => `
+                <tr>
+                  <td><div class="asset-name">${p['Brand Name']}</div><div class="asset-sub">${p['Generic Name'] || ''}</div></td>
+                  <td>
+                    <span class="tag tag-clickable" onclick="selectModalityById('${p.Modality_ID}')">${getModality(p.Modality_ID)?.Name?.split(' (')[0] || p.Modality_ID}</span>
+                    <span class="tag tag-clickable" onclick="selectTAById('${p.TA_ID}')">${getTA(p.TA_ID)?.Name?.split(' /')[0]?.split(' (')[0] || p.TA_ID}</span>
+                  </td>
+                  <td class="metric">${p['2024 Global Sales ($B)'] ? '$' + parseFloat(p['2024 Global Sales ($B)']).toFixed(1) + 'B' : '—'}</td>
+                  <td style="font-size: 11.5px; color: var(--ink-light);">${p['Patent Expiry (US)'] || '—'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>`}
+      </div>
+
+      <div>
+        <h2 class="section-title">Pipeline</h2>
+        <div class="section-sub">Key 2025–2027 launches · ${pipe.length} assets</div>
+        ${pipe.length === 0 ? '<div class="empty-state">No pipeline assets in dataset.</div>' :
+          `<table class="asset-table">
+            <thead><tr><th>Asset</th><th>Modality / TA</th><th>Phase</th><th>Launch</th></tr></thead>
+            <tbody>
+              ${pipe.map(p => `
+                <tr>
+                  <td><div class="asset-name">${p['Asset Name']}</div><div class="asset-sub">${p['Mechanism'] || ''}</div></td>
+                  <td>
+                    <span class="tag tag-clickable" onclick="selectModalityById('${p.Modality_ID}')">${getModality(p.Modality_ID)?.Name?.split(' (')[0] || p.Modality_ID}</span>
+                    <span class="tag tag-clickable" onclick="selectTAById('${p.TA_ID}')">${getTA(p.TA_ID)?.Name?.split(' /')[0]?.split(' (')[0] || p.TA_ID}</span>
+                  </td>
+                  <td style="font-size: 11.5px;">${p['Development Phase'] || '—'}</td>
+                  <td class="metric">${p['Expected Launch Year'] || '—'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>`}
+      </div>
+    </div>
+
+    <div class="strength-section">
+      <h2 class="section-title">Modality Leadership</h2>
+      <div class="section-sub">3 = clear leader · 2 = significant · 1 = some / emerging</div>
+      <div class="strength-list">
+        ${mods.length === 0 ? '<div class="empty-state">No modality strengths recorded.</div>' :
+          mods.map(m => {
+            const mod = getModality(m.Modality_ID);
+            const s = parseInt(m['Strength (1-3)']);
+            return `
+              <div class="strength-row">
+                <div class="strength-name" onclick="selectModalityById('${m.Modality_ID}')" style="cursor: pointer;">${mod?.Name || m.Modality_ID}</div>
+                <div class="strength-dots">
+                  <div class="dot ${s >= 1 ? 'filled' : ''}"></div>
+                  <div class="dot ${s >= 2 ? 'filled' : ''}"></div>
+                  <div class="dot ${s >= 3 ? 'filled' : ''}"></div>
+                </div>
+                <div class="strength-notes">${m.Notes || ''}</div>
+              </div>`;
+          }).join('')}
+      </div>
+    </div>
+
+    <div class="strength-section">
+      <h2 class="section-title">Therapeutic Area Leadership</h2>
+      <div class="section-sub">3 = clear leader · 2 = significant · 1 = some / emerging</div>
+      <div class="strength-list">
+        ${tas.length === 0 ? '<div class="empty-state">No TA strengths recorded.</div>' :
+          tas.map(t => {
+            const ta = getTA(t.TA_ID);
+            const s = parseInt(t['Strength (1-3)']);
+            return `
+              <div class="strength-row">
+                <div class="strength-name" onclick="selectTAById('${t.TA_ID}')" style="cursor: pointer;">${ta?.Name || t.TA_ID}</div>
+                <div class="strength-dots">
+                  <div class="dot ${s >= 1 ? 'filled' : ''}"></div>
+                  <div class="dot ${s >= 2 ? 'filled' : ''}"></div>
+                  <div class="dot ${s >= 3 ? 'filled' : ''}"></div>
+                </div>
+                <div class="strength-notes">${t.Notes || ''}</div>
+              </div>`;
+          }).join('')}
+      </div>
+    </div>
+  `;
+
+  $('#view-company-detail').innerHTML = html;
+}
+
+// === Render: Modalities list ===
+function renderModalities() {
+  const grid = $('#modality-grid');
+  grid.innerHTML = '';
+  DATA.modalities.forEach(m => {
+    const stage = m['Maturity Stage'] || '';
+    const card = el(`
+      <div class="ref-card" data-id="${m.Modality_ID}">
+        <div class="ref-card-id">${m.Modality_ID}</div>
+        <h3 class="ref-card-title">${m.Name}</h3>
+        <span class="ref-card-stage stage-${stage}">${stage}</span>
+        <p class="ref-card-summary">${m['Mechanism Summary'] || ''}</p>
+        <div class="ref-card-stats">
+          <div>$${m['2025 Market Size ($B)'] || '—'}B · 2025</div>
+          <div>${m['Growth'] || ''}</div>
+        </div>
+      </div>
+    `);
+    card.addEventListener('click', () => selectModality(m.Modality_ID));
+    grid.appendChild(card);
+  });
+}
+
+function selectModalityById(id) { selectModality(id); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function selectModality(id) {
+  state.selectedMod = id;
+  state.view = 'modality-detail';
+  switchView();
+  renderModalityDetail();
+}
+
+function renderModalityDetail() {
+  const m = getModality(state.selectedMod);
+  if (!m) return;
+
+  const cos = getModalityCompanies(m.Modality_ID).sort((a, b) => b['Strength (1-3)'] - a['Strength (1-3)']);
+  const prods = getModalityProducts(m.Modality_ID).sort((a, b) => (parseFloat(b['2024 Global Sales ($B)']) || 0) - (parseFloat(a['2024 Global Sales ($B)']) || 0));
+  const pipe = getModalityPipeline(m.Modality_ID).sort((a, b) => (parseInt(a['Expected Launch Year']) || 9999) - (parseInt(b['Expected Launch Year']) || 9999));
+  const stage = m['Maturity Stage'] || '';
+
+  let html = `
+    <button class="detail-back" onclick="backTo('modalities')">← Back to modalities</button>
+    <div class="detail-header">
+      <div class="detail-meta">
+        <span class="ref-card-stage stage-${stage}">${stage}</span>
+        <span class="detail-ticker">${m.Modality_ID}</span>
+      </div>
+      <h1 class="detail-title">${m.Name}</h1>
+      <p class="detail-notes">${m['Mechanism Summary'] || ''}</p>
+    </div>
+
+    <div class="detail-stats">
+      <div class="stat"><div class="stat-label">2025 Market</div><div class="stat-value">$${m['2025 Market Size ($B)'] || '—'}B</div></div>
+      <div class="stat"><div class="stat-label">Growth</div><div class="stat-value" style="font-size: 14px; padding-top: 6px;">${m['Growth'] || '—'}</div></div>
+      <div class="stat"><div class="stat-label">China Position</div><div class="stat-value" style="font-size: 14px; padding-top: 6px;">${(m['China Position'] || '—').split(' (')[0]}</div></div>
+      <div class="stat"><div class="stat-label">Products · Pipeline</div><div class="stat-value">${prods.length} · ${pipe.length}</div></div>
+    </div>
+
+    <div class="modality-detail">
+      <div class="modality-sidebar">
+        <h4>Strategic notes</h4>
+        <p>${m.Notes || ''}</p>
+        <h4>Companies active in this modality</h4>
+        <p style="font-size: 12px; color: var(--ink-faint); margin-bottom: 8px;">Highlighted = clear leader</p>
+        <div class="companies-using">
+          ${cos.map(co => {
+            const company = getCompany(co.Company_ID);
+            if (!company) return '';
+            const isLeader = co['Strength (1-3)'] === 3;
+            return `<span class="co-chip ${isLeader ? 'co-chip-leader' : ''}" onclick="selectCompany('${co.Company_ID}')">${company.Name}</span>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <div>
+        <div class="strength-section">
+          <h2 class="section-title">Approved Products</h2>
+          <div class="section-sub">${prods.length} products in this modality</div>
+          ${prods.length === 0 ? '<div class="empty-state">No approved products mapped to this modality.</div>' :
+            `<table class="asset-table">
+              <thead><tr><th>Product</th><th>Owner</th><th>TA</th><th>2024 Sales</th></tr></thead>
+              <tbody>
+                ${prods.slice(0, 20).map(p => `
+                  <tr>
+                    <td><div class="asset-name">${p['Brand Name']}</div><div class="asset-sub">${p['Generic Name'] || ''}</div></td>
+                    <td><span class="co-chip" onclick="selectCompany('${p.Owner_Company_ID}')">${getCompany(p.Owner_Company_ID)?.Name || ''}</span></td>
+                    <td><span class="tag tag-clickable" onclick="selectTAById('${p.TA_ID}')">${getTA(p.TA_ID)?.Name?.split(' /')[0]?.split(' (')[0] || p.TA_ID}</span></td>
+                    <td class="metric">${p['2024 Global Sales ($B)'] ? '$' + parseFloat(p['2024 Global Sales ($B)']).toFixed(1) + 'B' : '—'}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`}
+        </div>
+
+        <div class="strength-section">
+          <h2 class="section-title">Pipeline</h2>
+          <div class="section-sub">${pipe.length} assets</div>
+          ${pipe.length === 0 ? '<div class="empty-state">No pipeline assets mapped to this modality.</div>' :
+            `<table class="asset-table">
+              <thead><tr><th>Asset</th><th>Owner</th><th>TA</th><th>Phase</th><th>Launch</th></tr></thead>
+              <tbody>
+                ${pipe.slice(0, 20).map(p => `
+                  <tr>
+                    <td><div class="asset-name">${p['Asset Name']}</div></td>
+                    <td><span class="co-chip" onclick="selectCompany('${p.Owner_Company_ID}')">${getCompany(p.Owner_Company_ID)?.Name || ''}</span></td>
+                    <td><span class="tag tag-clickable" onclick="selectTAById('${p.TA_ID}')">${getTA(p.TA_ID)?.Name?.split(' /')[0]?.split(' (')[0] || p.TA_ID}</span></td>
+                    <td style="font-size: 11.5px;">${p['Development Phase'] || ''}</td>
+                    <td class="metric">${p['Expected Launch Year'] || '—'}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`}
+        </div>
+      </div>
+    </div>
+  `;
+
+  $('#view-modality-detail').innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// === Render: TAs ===
+function renderTAs() {
+  const grid = $('#ta-grid');
+  grid.innerHTML = '';
+  DATA.tas.forEach(t => {
+    const card = el(`
+      <div class="ref-card" data-id="${t.TA_ID}">
+        <div class="ref-card-id">${t.TA_ID}</div>
+        <h3 class="ref-card-title">${t.Name}</h3>
+        <p class="ref-card-summary">${t['Notes'] || ''}</p>
+        <div class="ref-card-stats">
+          <div>$${t['2025 Market Size ($B)'] || '—'}B · 2025</div>
+          <div>+${t['Growth %'] || '—'}% growth</div>
+        </div>
+      </div>
+    `);
+    card.addEventListener('click', () => selectTA(t.TA_ID));
+    grid.appendChild(card);
+  });
+}
+
+function selectTAById(id) { selectTA(id); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function selectTA(id) {
+  state.selectedTA = id;
+  state.view = 'ta-detail';
+  switchView();
+  renderTADetail();
+}
+
+function renderTADetail() {
+  const t = getTA(state.selectedTA);
+  if (!t) return;
+
+  const cos = getTACompanies(t.TA_ID).sort((a, b) => b['Strength (1-3)'] - a['Strength (1-3)']);
+  const prods = getTAProducts(t.TA_ID).sort((a, b) => (parseFloat(b['2024 Global Sales ($B)']) || 0) - (parseFloat(a['2024 Global Sales ($B)']) || 0));
+  const pipe = getTAPipeline(t.TA_ID).sort((a, b) => (parseInt(a['Expected Launch Year']) || 9999) - (parseInt(b['Expected Launch Year']) || 9999));
+
+  let html = `
+    <button class="detail-back" onclick="backTo('tas')">← Back to therapeutic areas</button>
+    <div class="detail-header">
+      <div class="detail-meta">
+        <span class="detail-ticker">${t.TA_ID}</span>
+      </div>
+      <h1 class="detail-title">${t.Name}</h1>
+      <p class="detail-notes">${t.Notes || ''}</p>
+    </div>
+
+    <div class="detail-stats">
+      <div class="stat"><div class="stat-label">2025 Market</div><div class="stat-value">$${t['2025 Market Size ($B)'] || '—'}B</div></div>
+      <div class="stat"><div class="stat-label">Annual Growth</div><div class="stat-value metric-positive">+${t['Growth %'] || '—'}%</div></div>
+      <div class="stat"><div class="stat-label">Patent Cliff</div><div class="stat-value" style="font-size: 14px; padding-top: 6px;">${t['Patent Cliff Exposure'] || '—'}</div></div>
+      <div class="stat"><div class="stat-label">Products · Pipeline</div><div class="stat-value">${prods.length} · ${pipe.length}</div></div>
+    </div>
+
+    <div class="modality-detail">
+      <div class="modality-sidebar">
+        <h4>Commercialization channel</h4>
+        <p>${t['Commercialization Channel'] || '—'}</p>
+        <h4>Companies active in this TA</h4>
+        <p style="font-size: 12px; color: var(--ink-faint); margin-bottom: 8px;">Highlighted = clear leader</p>
+        <div class="companies-using">
+          ${cos.map(co => {
+            const company = getCompany(co.Company_ID);
+            if (!company) return '';
+            const isLeader = co['Strength (1-3)'] === 3;
+            return `<span class="co-chip ${isLeader ? 'co-chip-leader' : ''}" onclick="selectCompany('${co.Company_ID}')">${company.Name}</span>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <div>
+        <div class="strength-section">
+          <h2 class="section-title">Approved Products</h2>
+          <div class="section-sub">${prods.length} products in this TA</div>
+          ${prods.length === 0 ? '<div class="empty-state">No approved products mapped to this TA.</div>' :
+            `<table class="asset-table">
+              <thead><tr><th>Product</th><th>Owner</th><th>Modality</th><th>2024 Sales</th></tr></thead>
+              <tbody>
+                ${prods.slice(0, 20).map(p => `
+                  <tr>
+                    <td><div class="asset-name">${p['Brand Name']}</div><div class="asset-sub">${p['Generic Name'] || ''}</div></td>
+                    <td><span class="co-chip" onclick="selectCompany('${p.Owner_Company_ID}')">${getCompany(p.Owner_Company_ID)?.Name || ''}</span></td>
+                    <td><span class="tag tag-clickable" onclick="selectModalityById('${p.Modality_ID}')">${getModality(p.Modality_ID)?.Name?.split(' (')[0] || p.Modality_ID}</span></td>
+                    <td class="metric">${p['2024 Global Sales ($B)'] ? '$' + parseFloat(p['2024 Global Sales ($B)']).toFixed(1) + 'B' : '—'}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`}
+        </div>
+
+        <div class="strength-section">
+          <h2 class="section-title">Pipeline</h2>
+          <div class="section-sub">${pipe.length} assets</div>
+          ${pipe.length === 0 ? '<div class="empty-state">No pipeline assets mapped to this TA.</div>' :
+            `<table class="asset-table">
+              <thead><tr><th>Asset</th><th>Owner</th><th>Modality</th><th>Phase</th><th>Launch</th></tr></thead>
+              <tbody>
+                ${pipe.slice(0, 20).map(p => `
+                  <tr>
+                    <td><div class="asset-name">${p['Asset Name']}</div></td>
+                    <td><span class="co-chip" onclick="selectCompany('${p.Owner_Company_ID}')">${getCompany(p.Owner_Company_ID)?.Name || ''}</span></td>
+                    <td><span class="tag tag-clickable" onclick="selectModalityById('${p.Modality_ID}')">${getModality(p.Modality_ID)?.Name?.split(' (')[0] || p.Modality_ID}</span></td>
+                    <td style="font-size: 11.5px;">${p['Development Phase'] || ''}</td>
+                    <td class="metric">${p['Expected Launch Year'] || '—'}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`}
+        </div>
+      </div>
+    </div>
+  `;
+
+  $('#view-ta-detail').innerHTML = html;
+}
+
+// === Render: Themes ===
+function renderThemes() {
+  const grid = $('#themes-grid');
+  grid.innerHTML = '';
+  DATA.themes.forEach(t => {
+    grid.appendChild(el(`
+      <div class="theme-card">
+        <div class="theme-id">${t.Theme_ID} · ${t['Primary TA(s)'] || ''}</div>
+        <h3 class="theme-title">${t.Theme}</h3>
+        <p class="theme-desc">${t.Description || ''}</p>
+        <div class="theme-sea">
+          <div class="theme-sea-label">SEA Implication</div>
+          ${t['SEA Implication'] || ''}
+        </div>
+      </div>
+    `));
+  });
+}
+
+// === View switching ===
+function switchView() {
+  $$('.view').forEach(v => v.classList.remove('active'));
+  const viewEl = $('#view-' + state.view);
+  if (viewEl) viewEl.classList.add('active');
+
+  $$('.nav-item').forEach(n => n.classList.remove('active'));
+  const baseView = state.view.includes('-detail') ? state.view.split('-')[0] + 's' :
+                   state.view === 'about' ? 'about' :
+                   state.view === 'themes' ? 'themes' :
+                   state.view === 'tas' ? 'tas' :
+                   state.view === 'modalities' ? 'modalities' :
+                   'companies';
+  const correctedView = state.view === 'company-detail' ? 'companies' :
+                        state.view === 'modality-detail' ? 'modalities' :
+                        state.view === 'ta-detail' ? 'tas' :
+                        state.view;
+  const navItem = document.querySelector('.nav-item[data-view="' + correctedView + '"]');
+  if (navItem) navItem.classList.add('active');
+}
+
+function backTo(view) {
+  state.view = view;
+  switchView();
+}
+
+// === Filters ===
+function setupFilters() {
+  ['f-tier', 'f-region', 'f-ta', 'f-growth'].forEach(id => {
+    $('#' + id).addEventListener('change', e => {
+      const key = id.replace('f-', '');
+      state.filters[key] = e.target.value;
+      renderCompanies();
+    });
+  });
+  $('#f-reset').addEventListener('click', () => {
+    state.filters = { tier: '', region: '', ta: '', growth: '' };
+    ['f-tier', 'f-region', 'f-ta', 'f-growth'].forEach(id => $('#' + id).value = '');
+    renderCompanies();
+  });
+}
+
+function setupNav() {
+  $$('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const v = item.getAttribute('data-view');
+      state.view = v;
+      switchView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
+// Make functions globally accessible for inline onclick
+window.selectCompany = selectCompany;
+window.selectModalityById = selectModalityById;
+window.selectTAById = selectTAById;
+window.backTo = backTo;
+
+// Init
+renderCounts();
+renderCompanies();
+renderModalities();
+renderTAs();
+renderThemes();
+setupFilters();
+setupNav();
+</script>
+</body>
+</html>
